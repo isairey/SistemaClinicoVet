@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="root"
+            xmlns="http://javafx.com/javafx/24.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="co.edu.upb.veterinaria.controllers.ControllerAddPets.PetsAdd"
+            prefHeight="720.0" prefWidth="1200.0"
+            style="-fx-background-color:#DFD6D6;">
+
+    <!-- Barra superior con logo + (campana / perfil) -->
+    <HBox alignment="CENTER_LEFT" spacing="10"
+          prefHeight="70.0"
+          style="-fx-background-color:#FFFFFF;"
+          AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <padding><Insets left="18" right="18"/></padding>
+
+        <!-- Logo (volver al menú) -->
+        <ImageView fx:id="topLogo"
+                   onMouseClicked="#onLogoClick"
+                   fitHeight="150.0" fitWidth="150.0" preserveRatio="true" pickOnBounds="true">
+            <image><Image url="@../../images/logoPrincipal.png"/></image>
+        </ImageView>
+
+        <!-- Empuja a la derecha los iconos -->
+        <Region HBox.hgrow="ALWAYS"/>
+
+        <!-- Campana (notificaciones) -->
+        <MenuButton fx:id="mbNotificaciones" text="🔔"
+                    style="-fx-background-color:transparent; -fx-font-size:23px; -fx-padding:6 10; -fx-text-fill:#113051;">
+            <items>
+                <MenuItem fx:id="miVerNotificaciones" text="Ver notificaciones" onAction="#onVerNotificaciones"/>
+            </items>
+        </MenuButton>
+
+        <!-- Perfil (datos personales / cerrar sesión) -->
+        <MenuButton fx:id="mbPerfil" text="👤"
+                    style="-fx-background-color:transparent; -fx-font-size:23px; -fx-padding:6 10; -fx-text-fill:#113051;">
+            <items>
+                <MenuItem fx:id="miDatosPersonales" text="Datos personales" onAction="#onDatosPersonales"/>
+                <MenuItem fx:id="miCerrarSesion"   text="Cerrar sesión"    onAction="#onCerrarSesion"/>
+            </items>
+        </MenuButton>
+    </HBox>
+
+    <!-- Menú de 7 módulos -->
+    <HBox alignment="CENTER" spacing="32"
+          prefHeight="100.0"
+          style="-fx-background-color:#113051;"
+          AnchorPane.topAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <Button fx:id="btnRegistrarProductos" text="Registrar Productos" onAction="#onRegistrarProductos"
+                style="-fx-background-color:#0FB9BA; -fx-text-fill:white; -fx-font-size:13px; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:6 12;"/>
+        <Button fx:id="btnInventario" text="Inventario" onAction="#onInventario"
+                style="-fx-background-color:#0FB9BA; -fx-text-fill:white; -fx-font-size:13px; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:6 12;"/>
+        <Button fx:id="btnGestionarUsuario" text="Gestionar Usuario" onAction="#onGestionarUsuario"
+                style="-fx-background-color:#0FB9BA; -fx-text-fill:white; -fx-font-size:13px; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:6 12;"/>
+        <Button fx:id="btnVisualizarRegistros" text="Visualizar Registros" onAction="#onVisualizarRegistros"
+                style="-fx-background-color:#0FB9BA; -fx-text-fill:white; -fx-font-size:13px; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:6 12;"/>
+        <Button fx:id="btnVentas" text="Ventas" onAction="#onVentas"
+                style="-fx-background-color:#0FB9BA; -fx-text-fill:white; -fx-font-size:13px; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:6 12;"/>
+        <Button fx:id="btnAgregarClientes" text="Agregar Clientes" onAction="#onAgregarClientes"
+                style="-fx-background-color:#0FB9BA; -fx-text-fill:white; -fx-font-size:13px; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:6 12;"/>
+        <Button fx:id="btnAdministrarProveedores" text="Administrar Proveedores" onAction="#onAdministrarProveedores"
+                style="-fx-background-color:#0FB9BA; -fx-text-fill:white; -fx-font-size:13px; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:6 12;"/>
+    </HBox>
+
+    <!-- Card central -->
+    <AnchorPane AnchorPane.topAnchor="205.0"
+                AnchorPane.bottomAnchor="20.0"
+                AnchorPane.leftAnchor="26.0"
+                AnchorPane.rightAnchor="26.0"
+                style="-fx-background-color:#173751; -fx-background-radius:18;
+                       -fx-border-color:#2E3F52; -fx-border-width:5; -fx-border-radius:18;">
+
+        <StackPane AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                   AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+                   alignment="TOP_CENTER">
+            <padding><Insets top="36" right="24" bottom="24" left="24"/></padding>
+
+            <VBox spacing="28" maxWidth="860.0" prefWidth="860.0">
+
+                <VBox spacing="6" alignment="CENTER">
+                    <Label text="Agregar Mascota"
+                           style="-fx-text-fill:#E9EEF3; -fx-font-size:32px; -fx-font-weight:bold;"/>
+                    <Label text="Registra los datos de la mascota del cliente."
+                           wrapText="true"
+                           style="-fx-text-fill:#B9C6D3; -fx-font-size:14px;"/>
+                </VBox>
+
+                <VBox spacing="18" style="-fx-background-color:#0F2C45; -fx-background-radius:14; -fx-padding:22;">
+                    <GridPane fx:id="gridMascota" hgap="18" vgap="12">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="18"/>
+                            <ColumnConstraints percentWidth="32"/>
+                            <ColumnConstraints percentWidth="18"/>
+                            <ColumnConstraints percentWidth="32"/>
+                        </columnConstraints>
+
+                        <Label text="Nombre:" style="-fx-text-fill:#D9E1E8; -fx-font-size:13px;" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                        <TextField fx:id="tfNombre" promptText="Nombre de la mascota"
+                                   style="-fx-background-color:#BFC2C8; -fx-background-radius:10; -fx-padding:8 12; -fx-font-size:13px;"
+                                   GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                        <Label text="Raza:" style="-fx-text-fill:#D9E1E8; -fx-font-size:13px;" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+                        <TextField fx:id="tfRaza" promptText="Raza"
+                                   style="-fx-background-color:#BFC2C8; -fx-background-radius:10; -fx-padding:8 12; -fx-font-size:13px;"
+                                   GridPane.rowIndex="0" GridPane.columnIndex="3"/>
+
+                        <Label text="Especie:" style="-fx-text-fill:#D9E1E8; -fx-font-size:13px;" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                        <ComboBox fx:id="cbEspecie" promptText="Seleccione especie"
+                                  style="-fx-background-color:#BFC2C8; -fx-background-radius:10; -fx-padding:6 10; -fx-font-size:13px;"
+                                  GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                        <Label text="Sexo:" style="-fx-text-fill:#D9E1E8; -fx-font-size:13px;" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+                        <ComboBox fx:id="cbSexo" promptText="Seleccione sexo"
+                                  style="-fx-background-color:#BFC2C8; -fx-background-radius:10; -fx-padding:6 10; -fx-font-size:13px;"
+                                  GridPane.rowIndex="1" GridPane.columnIndex="3"/>
+
+                        <Label text="Edad:" style="-fx-text-fill:#D9E1E8; -fx-font-size:13px;" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                        <TextField fx:id="tfEdad" promptText="Edad (años o meses)"
+                                   style="-fx-background-color:#BFC2C8; -fx-background-radius:10; -fx-padding:8 12; -fx-font-size:13px;"
+                                   GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                        <Label text="N° de chip:" style="-fx-text-fill:#D9E1E8; -fx-font-size:13px;" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+                        <TextField fx:id="tfNumeroChip" promptText="Número de identificación"
+                                   style="-fx-background-color:#BFC2C8; -fx-background-radius:10; -fx-padding:8 12; -fx-font-size:13px;"
+                                   GridPane.rowIndex="2" GridPane.columnIndex="3"/>
+                    </GridPane>
+                </VBox>
+
+                <HBox alignment="CENTER" spacing="14">
+                    <Button fx:id="btnCancelar" text="Cancelar" onAction="#onCancelar"
+                            prefHeight="42.0" minWidth="160.0"
+                            style="-fx-background-color:#E6DEDE; -fx-text-fill:#1C2A3A; -fx-font-size:15px; -fx-font-weight:bold; -fx-background-radius:12; -fx-padding:8 18;"/>
+                    <Button fx:id="btnGuardar" text="Guardar" onAction="#onGuardar"
+                            prefHeight="42.0" minWidth="180.0"
+                            style="-fx-background-color:#0FB9BA; -fx-text-fill:white; -fx-font-size:15px; -fx-font-weight:bold; -fx-background-radius:12; -fx-padding:8 20;"/>
+                </HBox>
+            </VBox>
+        </StackPane>
+    </AnchorPane>
+</AnchorPane>

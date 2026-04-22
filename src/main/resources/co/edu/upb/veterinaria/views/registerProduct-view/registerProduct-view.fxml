@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="root"
+            prefHeight="1000.0" prefWidth="992.0"
+            style="-fx-background-color:#DFD6D6;"
+            xmlns="http://javafx.com/javafx/24.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="co.edu.upb.veterinaria.controllers.ControllerRegisterProduct.productRegister">
+
+    <!-- ===== BARRA SUPERIOR (conexiones intactas) ===== -->
+    <HBox alignment="CENTER_LEFT" prefHeight="70.0" spacing="10"
+          style="-fx-background-color:#FFFFFF;"
+          AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <padding><Insets left="18" right="18"/></padding>
+
+        <ImageView fx:id="topLogo" onMouseClicked="#onLogoClick"
+                   fitHeight="150.0" fitWidth="150.0" preserveRatio="true" pickOnBounds="true">
+            <image><Image url="@../../images/logoPrincipal.png"/></image>
+        </ImageView>
+
+        <Region HBox.hgrow="ALWAYS"/>
+
+        <MenuButton fx:id="mbNotificaciones" text="🔔"
+                    style="-fx-background-color:transparent; -fx-font-size:23px; -fx-padding:6 10; -fx-text-fill:#113051;">
+            <items>
+                <MenuItem fx:id="miVerNotificaciones" text="Ver notificaciones" onAction="#onVerNotificaciones"/>
+            </items>
+        </MenuButton>
+
+        <MenuButton fx:id="mbPerfil" text="👤"
+                    style="-fx-background-color:transparent; -fx-font-size:23px; -fx-padding:6 10; -fx-text-fill:#113051;">
+            <items>
+                <MenuItem fx:id="miDatosPersonales" text="Datos personales" onAction="#onDatosPersonales"/>
+                <MenuItem fx:id="miCerrarSesion"   text="Cerrar sesión"    onAction="#onCerrarSesion"/>
+            </items>
+        </MenuButton>
+    </HBox>
+
+    <!-- ===== MENÚ SUPERIOR (conexiones intactas) ===== -->
+    <HBox alignment="CENTER" prefHeight="100.0" spacing="32"
+          style="-fx-background-color:#113051;"
+          AnchorPane.topAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <Button fx:id="btnInventario" text="Inventario" onAction="#onInventario"
+                prefHeight="36.0" minWidth="120.0"
+                style="-fx-background-color:#0FB9BA; -fx-text-fill:white; -fx-font-size:13px; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:6 12;"/>
+        <Button fx:id="btnGestionarUsuario" text="Gestionar Usuario" onAction="#onGestionarUsuario"
+                prefHeight="36.0" minWidth="150.0"
+                style="-fx-background-color:#0FB9BA; -fx-text-fill:white; -fx-font-size:13px; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:6 12;"/>
+        <Button fx:id="btnVisualizarRegistros" text="Visualizar Registros" onAction="#onVisualizarRegistros"
+                prefHeight="36.0" minWidth="165.0"
+                style="-fx-background-color:#0FB9BA; -fx-text-fill:white; -fx-font-size:13px; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:6 12;"/>
+        <Button fx:id="btnVentas" text="Ventas" onAction="#onVentas"
+                prefHeight="36.0" minWidth="110.0"
+                style="-fx-background-color:#0FB9BA; -fx-text-fill:white; -fx-font-size:13px; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:6 12;"/>
+        <Button fx:id="btnAgregarClientes" text="Agregar Clientes" onAction="#onAgregarClientes"
+                prefHeight="36.0" minWidth="150.0"
+                style="-fx-background-color:#0FB9BA; -fx-text-fill:white; -fx-font-size:13px; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:6 12;"/>
+        <Button fx:id="btnAdministrarProveedores" text="Administrar Proveedores" onAction="#onAdministrarProveedores"
+                prefHeight="36.0" minWidth="200.0"
+                style="-fx-background-color:#0FB9BA; -fx-text-fill:white; -fx-font-size:13px; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:6 12;"/>
+    </HBox>
+
+    <!-- ===== CARD PRINCIPAL ===== -->
+    <AnchorPane AnchorPane.topAnchor="217.0" AnchorPane.bottomAnchor="23.0"
+                AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="18.0"
+                style="-fx-background-color:#173751; -fx-background-radius:18;
+                       -fx-border-color:#2E3F52; -fx-border-width:5; -fx-border-radius:18;">
+        <padding><Insets top="18" right="18" bottom="18" left="18"/></padding>
+
+        <VBox spacing="18" AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0"
+              AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0">
+
+            <!-- Título/Descripción -->
+            <VBox spacing="6">
+                <Label text="Registrar Productos"
+                       style="-fx-text-fill:#E9EEF3; -fx-font-size:32px; -fx-font-weight:bold;"/>
+                <Label text="En este módulo puedes registrar productos en el inventario…"
+                       wrapText="true" style="-fx-text-fill:#B9C6D3; -fx-font-size:13px;"/>
+            </VBox>
+
+            <HBox spacing="24" VBox.vgrow="ALWAYS">
+                <!-- ======= FORM ======= -->
+                <GridPane hgap="22" vgap="12" HBox.hgrow="ALWAYS">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="15"/>
+                        <ColumnConstraints percentWidth="27"/>
+                        <ColumnConstraints percentWidth="15"/>
+                        <ColumnConstraints percentWidth="27"/>
+                        <ColumnConstraints percentWidth="8"/>
+                        <ColumnConstraints percentWidth="8"/>
+                    </columnConstraints>
+
+                    <!-- fila 0 -->
+                    <Label text="Tipo de producto:" style="-fx-text-fill:#D9E1E8; -fx-font-size:13px;"
+                           GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                    <ComboBox fx:id="cbTipoProducto" promptText="Seleccione"
+                              prefHeight="28.0"
+                              style="-fx-background-color:#BFC2C8; -fx-background-radius:10; -fx-padding:4 10;"
+                              GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+                    <Label text="Estado:" style="-fx-text-fill:#D9E1E8; -fx-font-size:13px;"
+                           GridPane.columnIndex="2" GridPane.rowIndex="0"/>
+                    <ComboBox fx:id="cbEstado" promptText="Seleccione"
+                              prefHeight="28.0"
+                              style="-fx-background-color:#BFC2C8; -fx-background-radius:10; -fx-padding:4 10;"
+                              GridPane.columnIndex="3" GridPane.rowIndex="0"/>
+
+                    <!-- fila 1 (AJUSTADA: se quitó Cantidad; Dosis/Unidad se mueve a col 2/3) -->
+                    <Label text="Nombre:" style="-fx-text-fill:#D9E1E8; -fx-font-size:13px;"
+                           GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+                    <TextField fx:id="tfNombre" prefHeight="28.0"
+                               style="-fx-background-color:#BFC2C8; -fx-background-radius:10; -fx-padding:4 10;"
+                               GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+                    <Label text="Dosis/Unidad:" style="-fx-text-fill:#D9E1E8; -fx-font-size:13px;"
+                           GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                    <ComboBox fx:id="cbDosisUnidad" promptText="Seleccione"
+                              prefHeight="28.0"
+                              style="-fx-background-color:#BFC2C8; -fx-background-radius:10; -fx-padding:4 10;"
+                              GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+
+                    <!-- fila 2 -->
+                    <Label text="Referencia:" style="-fx-text-fill:#D9E1E8; -fx-font-size:13px;"
+                           GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+                    <TextField fx:id="tfReferencia" prefHeight="28.0"
+                               style="-fx-background-color:#BFC2C8; -fx-background-radius:10; -fx-padding:4 10;"
+                               GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+                    <Label text="Código de barras:" style="-fx-text-fill:#D9E1E8; -fx-font-size:13px;"
+                           GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+                    <TextField fx:id="tfCodigoBarras" prefHeight="28.0"
+                               style="-fx-background-color:#BFC2C8; -fx-background-radius:10; -fx-padding:4 10;"
+                               GridPane.columnIndex="3" GridPane.rowIndex="2"/>
+
+                    <Label text="Unidad de medida:" style="-fx-text-fill:#D9E1E8; -fx-font-size:13px;"
+                           GridPane.columnIndex="4" GridPane.rowIndex="2"/>
+                    <ComboBox fx:id="cbUnidadMedida" promptText="Seleccione"
+                              prefHeight="28.0"
+                              style="-fx-background-color:#BFC2C8; -fx-background-radius:10; -fx-padding:4 10;"
+                              GridPane.columnIndex="5" GridPane.rowIndex="2"/>
+
+                    <!-- fila 3 -->
+                    <Label text="Precio:" style="-fx-text-fill:#D9E1E8; -fx-font-size:13px;"
+                           GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+                    <TextField fx:id="tfPrecio" prefHeight="28.0"
+                               style="-fx-background-color:#BFC2C8; -fx-background-radius:10; -fx-padding:4 10;"
+                               GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+                    <Label text="Costo:" style="-fx-text-fill:#D9E1E8; -fx-font-size:13px;"
+                           GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+                    <TextField fx:id="tfCosto" prefHeight="28.0"
+                               style="-fx-background-color:#BFC2C8; -fx-background-radius:10; -fx-padding:4 10;"
+                               GridPane.columnIndex="3" GridPane.rowIndex="3"/>
+
+                    <Label text="Stock:" style="-fx-text-fill:#D9E1E8; -fx-font-size:13px;"
+                           GridPane.columnIndex="4" GridPane.rowIndex="3"/>
+                    <TextField fx:id="tfStock" prefHeight="28.0"
+                               style="-fx-background-color:#BFC2C8; -fx-background-radius:10; -fx-padding:4 10;"
+                               GridPane.columnIndex="5" GridPane.rowIndex="3"/>
+
+                    <!-- fila 4 -->
+                    <Label text="Marca:" style="-fx-text-fill:#D9E1E8; -fx-font-size:13px;"
+                           GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+                    <VBox spacing="6" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                        <ComboBox fx:id="cbMarca" promptText="Seleccione una marca"
+                                  prefHeight="28.0"
+                                  style="-fx-background-color:#BFC2C8; -fx-background-radius:10; -fx-padding:4 10;"/>
+                        <Button fx:id="btnAgregarMarca" text="Agregar marca" onAction="#onAgregarMarca"
+                                prefHeight="26.0" minWidth="180.0"
+                                style="-fx-background-color:#E6DEDE; -fx-text-fill:#1C2A3A; -fx-font-size:11px; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:2 10;"/>
+                    </VBox>
+
+                    <Label text="Proveedor:" style="-fx-text-fill:#D9E1E8; -fx-font-size:13px;"
+                           GridPane.columnIndex="2" GridPane.rowIndex="4"/>
+                    <ComboBox fx:id="cbProveedor" promptText="Seleccione"
+                              prefHeight="28.0"
+                              style="-fx-background-color:#BFC2C8; -fx-background-radius:10; -fx-padding:4 10;"
+                              GridPane.columnIndex="3" GridPane.rowIndex="4"/>
+
+                    <Label text="Lote:" style="-fx-text-fill:#D9E1E8; -fx-font-size:13px;"
+                           GridPane.columnIndex="4" GridPane.rowIndex="4"/>
+                    <TextField fx:id="tfLote" prefHeight="28.0"
+                               style="-fx-background-color:#BFC2C8; -fx-background-radius:10; -fx-padding:4 10;"
+                               GridPane.columnIndex="5" GridPane.rowIndex="4"/>
+
+                    <!-- fila 5 -->
+                    <Label text="Fecha vencimiento:" style="-fx-text-fill:#D9E1E8; -fx-font-size:13px;"
+                           GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+                    <DatePicker fx:id="dpVencimiento" prefHeight="28.0"
+                                style="-fx-background-color:#BFC2C8; -fx-background-radius:10;"
+                                GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+
+                    <Label text="Semanas para alerta:" style="-fx-text-fill:#D9E1E8; -fx-font-size:13px;"
+                           GridPane.columnIndex="2" GridPane.rowIndex="5"/>
+                    <TextField fx:id="tfSemanasParaAlerta" prefHeight="28.0"
+                               style="-fx-background-color:#BFC2C8; -fx-background-radius:10; -fx-padding:4 10;"
+                               GridPane.columnIndex="3" GridPane.rowIndex="5"/>
+
+                    <Label text="Contenido:" style="-fx-text-fill:#D9E1E8; -fx-font-size:13px;"
+                           GridPane.columnIndex="4" GridPane.rowIndex="5"/>
+                    <TextField fx:id="tfContenido" prefHeight="28.0"
+                               style="-fx-background-color:#BFC2C8; -fx-background-radius:10; -fx-padding:4 10;"
+                               GridPane.columnIndex="5" GridPane.rowIndex="5"/>
+
+                    <!-- fila 6 -->
+                    <CheckBox fx:id="chkFraccionable" text="Fraccionable"
+                              style="-fx-text-fill:#D9E1E8; -fx-font-size:13px;"
+                              GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+                    <CheckBox fx:id="chkFraccionado" text="Fraccionado"
+                              style="-fx-text-fill:#D9E1E8; -fx-font-size:13px;"
+                              GridPane.columnIndex="3" GridPane.rowIndex="6"/>
+
+                    <!-- fila 7: descripción -->
+                    <Label text="Descripción:" style="-fx-text-fill:#D9E1E8; -fx-font-size:13px;"
+                           GridPane.columnIndex="0" GridPane.rowIndex="7"/>
+                    <TextArea fx:id="taDescripcion" prefRowCount="4" wrapText="true"
+                              GridPane.columnIndex="1" GridPane.rowIndex="7"
+                              GridPane.columnSpan="5" GridPane.vgrow="ALWAYS"
+                              style="-fx-background-color:#BFC2C8; -fx-background-radius:12; -fx-padding:8 12;"/>
+                </GridPane>
+
+                <!-- ======= FOTO (INTACTA) ======= -->
+                <VBox spacing="10" alignment="TOP_CENTER" prefWidth="360" minWidth="320">
+                    <Label text="Foto del producto"
+                           style="-fx-text-fill:#E9EEF3; -fx-font-size:16px; -fx-font-weight:bold;"/>
+                    <StackPane prefWidth="340" prefHeight="280"
+                               style="-fx-background-color:#0f2740; -fx-background-radius:12; -fx-border-color:#2E3F52; -fx-border-width:2; -fx-border-radius:12;">
+                        <ImageView fx:id="imgProducto" preserveRatio="true" fitWidth="320" fitHeight="240" pickOnBounds="true"/>
+                    </StackPane>
+                    <HBox spacing="10">
+                        <Button text="Subir imagen" onAction="#onSubirFoto"
+                                style="-fx-background-color:#0FB9BA; -fx-text-fill:white; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:6 12;"/>
+                        <Button text="Quitar" onAction="#onQuitarFoto"
+                                style="-fx-background-color:#E6DEDE; -fx-text-fill:#1C2A3A; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:6 12;"/>
+                    </HBox>
+                    <Label fx:id="lblNombreArchivo" />
+                </VBox>
+            </HBox>
+
+            <!-- Botón principal -->
+            <HBox alignment="BOTTOM_RIGHT">
+                <Button text="Agregar" onAction="#onAgregar"
+                        prefHeight="54.0" minWidth="160.0"
+                        style="-fx-background-color:#E6DEDE; -fx-text-fill:#1C2A3A; -fx-font-size:20px; -fx-font-weight:bold; -fx-background-radius:10; -fx-padding:8 16;"/>
+            </HBox>
+        </VBox>
+    </AnchorPane>
+</AnchorPane>

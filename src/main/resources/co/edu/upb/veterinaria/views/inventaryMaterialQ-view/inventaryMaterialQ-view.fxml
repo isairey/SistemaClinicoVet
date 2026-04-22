@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="root"
+            prefHeight="1000.0" prefWidth="992.0"
+            style="-fx-background-color:#DFD6D6;"
+            xmlns="http://javafx.com/javafx/24.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="co.edu.upb.veterinaria.controllers.ControllerInventaryMaterialQ.InventaryMaterialQController">
+
+    <!-- ===== Barra superior ===== -->
+    <HBox alignment="CENTER_LEFT" prefHeight="70.0" spacing="10"
+          style="-fx-background-color:#FFFFFF;"
+          AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <padding><Insets left="18" right="18"/></padding>
+
+        <ImageView fx:id="topLogo" onMouseClicked="#onLogoClick"
+                   fitHeight="150.0" fitWidth="150.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image><Image url="@../../images/logoPrincipal.png"/></image>
+        </ImageView>
+
+        <Region HBox.hgrow="ALWAYS"/>
+
+        <MenuButton fx:id="mbNotificaciones" text="🔔"
+                    style="-fx-background-color:transparent; -fx-font-size:23px; -fx-padding:6 10; -fx-text-fill:#113051;">
+            <items>
+                <MenuItem fx:id="miVerNotificaciones" text="Ver notificaciones" onAction="#onVerNotificaciones"/>
+            </items>
+        </MenuButton>
+
+        <MenuButton fx:id="mbPerfil" text="👤"
+                    style="-fx-background-color:transparent; -fx-font-size:23px; -fx-padding:6 10; -fx-text-fill:#113051;">
+            <items>
+                <MenuItem fx:id="miDatosPersonales" text="Datos personales" onAction="#onDatosPersonales"/>
+                <MenuItem fx:id="miCerrarSesion"   text="Cerrar sesión"    onAction="#onCerrarSesion"/>
+            </items>
+        </MenuButton>
+    </HBox>
+
+    <!-- ===== Menú superior ===== -->
+    <HBox alignment="CENTER" prefHeight="100.0" spacing="32"
+          style="-fx-background-color:#113051;"
+          AnchorPane.topAnchor="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <Button fx:id="btnRegistrarProductos" text="Registrar Productos" onAction="#onRegistrarProductos"
+                prefHeight="36.0" minWidth="160.0"
+                style="-fx-background-color:#0FB9BA; -fx-text-fill:white; -fx-font-size:13px; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:6 12;"/>
+        <Button fx:id="btnGestionarUsuario" text="Gestionar Usuario" onAction="#onGestionarUsuario"
+                prefHeight="36.0" minWidth="150.0"
+                style="-fx-background-color:#0FB9BA; -fx-text-fill:white; -fx-font-size:13px; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:6 12;"/>
+        <Button fx:id="btnVisualizarRegistros" text="Visualizar Registros" onAction="#onVisualizarRegistros"
+                prefHeight="36.0" minWidth="165.0"
+                style="-fx-background-color:#0FB9BA; -fx-text-fill:white; -fx-font-size:13px; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:6 12;"/>
+        <Button fx:id="btnVentas" text="Ventas" onAction="#onVentas"
+                prefHeight="36.0" minWidth="110.0"
+                style="-fx-background-color:#0FB9BA; -fx-text-fill:white; -fx-font-size:13px; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:6 12;"/>
+        <Button fx:id="btnAgregarClientes" text="Agregar Clientes" onAction="#onAgregarClientes"
+                prefHeight="36.0" minWidth="150.0"
+                style="-fx-background-color:#0FB9BA; -fx-text-fill:white; -fx-font-size:13px; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:6 12;"/>
+        <Button fx:id="btnAdministrarProveedores" text="Administrar Proveedores" onAction="#onAdministrarProveedores"
+                prefHeight="36.0" minWidth="200.0"
+                style="-fx-background-color:#0FB9BA; -fx-text-fill:white; -fx-font-size:13px; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:6 12;"/>
+    </HBox>
+
+    <!-- ===== Card central (título centrado + Volver encima) ===== -->
+    <AnchorPane AnchorPane.topAnchor="205.0" AnchorPane.bottomAnchor="20.0"
+                AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="26.0"
+                style="-fx-background-color:#173751; -fx-background-radius:18;
+                       -fx-border-color:#2E3F52; -fx-border-width:5; -fx-border-radius:18;">
+        <padding><Insets top="0" right="22" bottom="0" left="22"/></padding>
+
+        <VBox spacing="18" AnchorPane.topAnchor="18.0" AnchorPane.leftAnchor="18.0"
+              AnchorPane.rightAnchor="18.0" AnchorPane.bottomAnchor="18.0">
+
+            <!-- Título centrado + botón Volver -->
+            <AnchorPane>
+                <VBox spacing="4" alignment="CENTER"
+                      AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                    <Label text="Inventario - Material Quirúrgico"
+                           style="-fx-text-fill:#E9EEF3; -fx-font-size:26px; -fx-font-weight:800;"/>
+                    <Label text="Vista especializada para productos de material quirúrgico."
+                           style="-fx-text-fill:#B9C6D3; -fx-font-size:13px;" wrapText="true"/>
+                </VBox>
+
+                <Button fx:id="btnVolver" text="Volver" onAction="#onVolver"
+                        style="-fx-background-color:#B6C2CF; -fx-text-fill:#13273B; -fx-font-size:12px; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:4 10;"
+                        AnchorPane.leftAnchor="0.0"/>
+            </AnchorPane>
+
+            <!-- Botones de categoría (todo MENOS Material Quirúrgico) -->
+            <HBox spacing="26" alignment="CENTER">
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button fx:id="btnMedicamento" text="Medicamento" prefHeight="48.0" minWidth="190.0"
+                        onAction="#onMedicamento"
+                        style="-fx-background-color:#13273B; -fx-text-fill:white; -fx-font-weight:bold; -fx-font-size:15px; -fx-background-radius:14; -fx-padding:8 18;"/>
+                <Button fx:id="btnAlimento" text="Alimento" prefHeight="48.0" minWidth="150.0"
+                        onAction="#onAlimento"
+                        style="-fx-background-color:#13273B; -fx-text-fill:white; -fx-font-weight:bold; -fx-font-size:15px; -fx-background-radius:14; -fx-padding:8 18;"/>
+                <Button fx:id="btnJuguete" text="Juguete/Accesorio" prefHeight="48.0" minWidth="220.0"
+                        onAction="#onJuguete"
+                        style="-fx-background-color:#13273B; -fx-text-fill:white; -fx-font-weight:bold; -fx-font-size:15px; -fx-background-radius:14; -fx-padding:8 18;"/>
+                <Region HBox.hgrow="ALWAYS"/>
+            </HBox>
+
+            <!-- Buscador -->
+            <AnchorPane style="-fx-background-color:#3E566D; -fx-background-radius:12; -fx-padding:14;">
+                <HBox spacing="12" alignment="CENTER_LEFT"
+                      AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0">
+                    <Label text="Buscar:" style="-fx-text-fill:#E6ECF2; -fx-font-size:15px; -fx-font-weight:bold;"/>
+                    <TextField fx:id="tfBuscar" HBox.hgrow="ALWAYS"
+                               promptText="Escribe nombre, referencia, marca o código de barras..."
+                               style="-fx-background-color:#E1E7EE; -fx-background-radius:10; -fx-padding:10 14; -fx-font-size:14px;"/>
+                    <Button fx:id="btnFiltrar" text="Filtrar" onAction="#onFiltrar"
+                            style="-fx-background-color:#607489; -fx-text-fill:white; -fx-font-weight:bold; -fx-background-radius:10; -fx-padding:8 16;"/>
+                    <Button fx:id="btnBuscar" text="Buscar" onAction="#onBuscar"
+                            style="-fx-background-color:#0FB9BA; -fx-text-fill:white; -fx-font-weight:bold; -fx-background-radius:10; -fx-padding:8 16;"/>
+                    <Button fx:id="btnLimpiar" text="Limpiar" onAction="#onLimpiar"
+                            style="-fx-background-color:#B6C2CF; -fx-text-fill:#13273B; -fx-font-weight:bold; -fx-background-radius:10; -fx-padding:8 16;"/>
+                </HBox>
+            </AnchorPane>
+
+            <!-- Tabla Material Quirúrgico (con scroll horizontal real) -->
+            <AnchorPane style="-fx-background-color:white; -fx-background-radius:14; -fx-padding:16;">
+                <ScrollPane fx:id="scrollTabla"
+                            fitToWidth="false" fitToHeight="true"
+                            vbarPolicy="ALWAYS" hbarPolicy="ALWAYS"
+                            style="-fx-background-color:transparent; -fx-background-insets:0;"
+                            AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                            AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="46.0">
+                    <content>
+                        <!-- wrapper un poco más ancho que la tabla para que no se corte el borde/sombra -->
+                        <VBox fx:id="tableWrapper" spacing="8" style="-fx-background-color:white;" prefWidth="3555.0">
+                            <!-- SUMA DE COLUMNAS = 3550 (ajustado tras quitar 2 columnas) -->
+                            <TableView fx:id="tblInventario" prefHeight="560.0" prefWidth="3550.0"
+                                       style="-fx-font-size:14px; -fx-table-cell-border-color:#D7DBE2; -fx-padding:0; -fx-background-radius:10; -fx-border-color:#D7DBE2; -fx-border-radius:10;">
+                                <columns>
+                                    <TableColumn fx:id="colIdProducto"     text="ID"                 prefWidth="150.0"/>
+                                    <TableColumn fx:id="colNombre"         text="Nombre"             prefWidth="300.0"/>
+                                    <TableColumn fx:id="colFoto"           text="Foto"               prefWidth="100.0"/>
+                                    <TableColumn fx:id="colReferencia"     text="Referencia"         prefWidth="250.0"/>
+                                    <TableColumn fx:id="colCodigoBarras"   text="Código de Barras"   prefWidth="250.0"/>
+                                    <TableColumn fx:id="colPrecio"         text="Precio"             prefWidth="150.0"/>
+                                    <TableColumn fx:id="colCosto"          text="Costo"              prefWidth="150.0"/>
+                                    <!-- REMOVIDA: colUnidadesDisponibles -->
+                                    <TableColumn fx:id="colMarca"          text="Marca"              prefWidth="150.0"/>
+                                    <TableColumn fx:id="colDescripcion"    text="Descripción"        prefWidth="350.0"/>
+                                    <TableColumn fx:id="colProveedor"      text="Proveedor"          prefWidth="300.0"/>
+                                    <TableColumn fx:id="colStock"          text="Stock"              prefWidth="200.0"/>
+
+                                    <!-- Campos específicos de Material Quirúrgico -->
+                                    <TableColumn fx:id="colLote"           text="Lote"               prefWidth="200.0"/>
+                                    <!-- RENOMBRADA (mismo fx:id para no romper conexiones) -->
+                                    <TableColumn fx:id="colFechaCad"       text="Fecha Vencimiento"  prefWidth="200.0"/>
+                                    <TableColumn fx:id="colSemanaAlerta"   text="Semana Alerta"      prefWidth="200.0"/>
+                                    <TableColumn fx:id="colFraccionable"   text="Fraccionable"       prefWidth="200.0"/>
+                                    <TableColumn fx:id="colFraccionado"    text="Fraccionado"        prefWidth="200.0"/>
+                                    <TableColumn fx:id="colContenido"      text="Contenido"          prefWidth="200.0"/>
+                                    <!-- REMOVIDA: colValorUnidad -->
+                                </columns>
+                                <placeholder>
+                                    <Label text="No hay datos cargados para material quirúrgico (vista demo)."
+                                           style="-fx-text-fill:#607489; -fx-font-size:13px;"/>
+                                </placeholder>
+                            </TableView>
+
+                            <Label text="Consejo: usa el scroll horizontal si la tabla es muy ancha."
+                                   style="-fx-text-fill:#6A7C90; -fx-font-size:12px; -fx-padding:6 2 0 2;"/>
+                        </VBox>
+                    </content>
+                </ScrollPane>
+
+                <!-- Acciones -->
+                <HBox spacing="20" AnchorPane.rightAnchor="25.0" AnchorPane.bottomAnchor="8.0">
+                    <Button fx:id="btnDeshacer" text="Deshacer" onAction="#onDeshacer"
+                            style="-fx-background-color:#7A91A7; -fx-text-fill:white; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:4 12; -fx-font-size:12px;"/>
+                    <Button fx:id="btnEditarSeleccion" text="Editar" onAction="#onEditarSeleccion"
+                            style="-fx-background-color:#0FB9BA; -fx-text-fill:white; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:4 12; -fx-font-size:12px;"/>
+                    <Button fx:id="btnEliminarSeleccion" text="Eliminar" onAction="#onEliminarSeleccion"
+                            style="-fx-background-color:#E45858; -fx-text-fill:white; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:4 12; -fx-font-size:12px;"/>
+                </HBox>
+            </AnchorPane>
+        </VBox>
+    </AnchorPane>
+</AnchorPane>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="root"
+            prefHeight="1000.0"
+            prefWidth="992.0"
+            style="-fx-background-color:#DFD6D6;"
+            xmlns="http://javafx.com/javafx/24.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="co.edu.upb.veterinaria.controllers.ControllerMainMenu.MainMenuController">
+
+    <!-- BARRA SUPERIOR (logo + acciones a la derecha) -->
+    <HBox fx:id="topBar"
+          alignment="CENTER_LEFT"
+          prefHeight="70.0"
+          spacing="10"
+          style="-fx-background-color:#FFFFFF;"
+          AnchorPane.topAnchor="0.0"
+          AnchorPane.leftAnchor="0.0"
+          AnchorPane.rightAnchor="0.0">
+
+        <!-- Logo (clic = volver/recargar MainMenu) -->
+        <ImageView fx:id="topLogo"
+                   onMouseClicked="#onLogoClick"
+                   fitHeight="150.0" fitWidth="150.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image><Image url="@../../images/logoPrincipal.png"/></image>
+        </ImageView>
+
+        <!-- Empuja los iconos a la derecha -->
+        <Region HBox.hgrow="ALWAYS"/>
+
+        <!-- Campana (notificaciones) -->
+        <MenuButton fx:id="mbNotificaciones" text="🔔"
+                    style="-fx-background-color:transparent; -fx-font-size:23px; -fx-padding:6 10; -fx-text-fill:#113051;">
+            <items>
+                <MenuItem fx:id="miVerNotificaciones" text="Ver notificaciones" onAction="#onVerNotificaciones"/>
+            </items>
+        </MenuButton>
+
+        <!-- Perfil (datos personales / cerrar sesión) -->
+        <MenuButton fx:id="mbPerfil" text="👤"
+                    style="-fx-background-color:transparent; -fx-font-size:23px; -fx-padding:6 10; -fx-text-fill:#113051;">
+            <items>
+                <MenuItem fx:id="miDatosPersonales" text="Datos personales" onAction="#onDatosPersonales"/>
+                <MenuItem fx:id="miCerrarSesion"   text="Cerrar sesión"    onAction="#onCerrarSesion"/>
+            </items>
+        </MenuButton>
+    </HBox>
+
+    <!-- MENÚ SUPERIOR (7 módulos) -->
+    <HBox fx:id="menuBar"
+          alignment="CENTER"
+          prefHeight="100.0"
+          spacing="32"
+          style="-fx-background-color:#113051;"
+          AnchorPane.topAnchor="70.0"
+          AnchorPane.leftAnchor="0.0"
+          AnchorPane.rightAnchor="0.0">
+
+        <Button fx:id="btnRegistrarProductos" text="Registrar Productos"
+                onAction="#onRegistrarProductos"
+                prefHeight="36.0" minWidth="160.0"
+                style="-fx-background-color:#0FB9BA; -fx-text-fill:white; -fx-font-size:13px; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:6 12;"/>
+
+        <Button fx:id="btnInventario" text="Inventario"
+                onAction="#onInventario"
+                prefHeight="36.0" minWidth="120.0"
+                style="-fx-background-color:#0FB9BA; -fx-text-fill:white; -fx-font-size:13px; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:6 12;"/>
+
+        <Button fx:id="btnGestionarUsuario" text="Gestionar Usuario"
+                onAction="#onGestionarUsuario"
+                prefHeight="36.0" minWidth="150.0"
+                style="-fx-background-color:#0FB9BA; -fx-text-fill:white; -fx-font-size:13px; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:6 12;"/>
+
+        <Button fx:id="btnVisualizarRegistros" text="Visualizar Registros"
+                onAction="#onVisualizarRegistros"
+                prefHeight="36.0" minWidth="165.0"
+                style="-fx-background-color:#0FB9BA; -fx-text-fill:white; -fx-font-size:13px; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:6 12;"/>
+
+        <Button fx:id="btnVentas" text="Ventas"
+                onAction="#onVentas"
+                prefHeight="36.0" minWidth="110.0"
+                style="-fx-background-color:#0FB9BA; -fx-text-fill:white; -fx-font-size:13px; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:6 12;"/>
+
+        <Button fx:id="btnAgregarClientes" text="Agregar Clientes"
+                onAction="#onAgregarClientes"
+                prefHeight="36.0" minWidth="150.0"
+                style="-fx-background-color:#0FB9BA; -fx-text-fill:white; -fx-font-size:13px; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:6 12;"/>
+
+        <Button fx:id="btnAdministrarProveedores" text="Administrar Proveedores"
+                onAction="#onAdministrarProveedores"
+                prefHeight="36.0" minWidth="200.0"
+                style="-fx-background-color:#0FB9BA; -fx-text-fill:white; -fx-font-size:13px; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:6 12;"/>
+    </HBox>
+
+    <!-- CONTENIDO CENTRAL (logo grande) -->
+    <VBox fx:id="contentBox"
+          alignment="CENTER"
+          spacing="150"
+          AnchorPane.topAnchor="170.0"
+          AnchorPane.leftAnchor="0.0"
+          AnchorPane.rightAnchor="0.0"
+          AnchorPane.bottomAnchor="0.0">
+        <ImageView fx:id="centerLogo"
+                   fitHeight="750.0" fitWidth="750.0"
+                   pickOnBounds="true" preserveRatio="true">
+            <image><Image url="@../../images/logoPrincipal.png"/></image>
+        </ImageView>
+    </VBox>
+</AnchorPane>

@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+
+<AnchorPane fx:id="root"
+            prefHeight="720.0" prefWidth="1200.0"
+            style="-fx-background-color:#0f2740;"
+            xmlns="http://javafx.com/javafx/21.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="co.edu.upb.veterinaria.controllers.login.LoginControlle_1">
+
+    <children>
+        <!-- GRID 50% | 8px | 50% -->
+        <GridPane hgap="0" vgap="0"
+                  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                  AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <columnConstraints>
+                <ColumnConstraints percentWidth="50" hgrow="ALWAYS"/>
+                <ColumnConstraints minWidth="8" prefWidth="8" maxWidth="8"/>
+                <ColumnConstraints percentWidth="50" hgrow="ALWAYS"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints vgrow="ALWAYS"/>
+            </rowConstraints>
+
+            <!-- ===== IZQUIERDA (50%) ===== -->
+            <StackPane fx:id="leftPane" GridPane.columnIndex="0"
+                       style="-fx-background-color:#FFFFFF;">
+                <padding><Insets left="64" right="32"/></padding>
+                <children>
+                    <ImageView fx:id="leftLogo"
+                               fitWidth="600.0" preserveRatio="true" smooth="true" pickOnBounds="false">
+                        <image>
+                            <Image url="@../../images/logoPrincipalNuevoFormato.png"/>
+                        </image>
+                    </ImageView>
+                </children>
+                <StackPane.alignment>CENTER_LEFT</StackPane.alignment>
+            </StackPane>
+
+            <!-- Divisor 8px fijo -->
+            <Region GridPane.columnIndex="1" style="-fx-background-color:#0c2034;"/>
+
+            <!-- ===== DERECHA (50%) ===== -->
+            <AnchorPane fx:id="rightPane" GridPane.columnIndex="2"
+                        style="-fx-background-color:#0f2740;">
+
+                <!-- Barra superior -->
+                <HBox fx:id="topBar" alignment="CENTER_LEFT" spacing="12"
+                      AnchorPane.leftAnchor="28.0" AnchorPane.topAnchor="20.0"
+                      AnchorPane.rightAnchor="28.0">
+                    <children>
+                        <StackPane prefWidth="44" prefHeight="44"
+                                   style="-fx-background-color:#1BD0CF; -fx-background-radius:12; -fx-alignment:center;">
+                            <children>
+                                <ImageView fitWidth="28" fitHeight="28" preserveRatio="true">
+                                    <image><Image url="@../../images/logoSecundario.png"/></image>
+                                </ImageView>
+                            </children>
+                        </StackPane>
+                        <Label text="Veterinaria &amp; Spa SOS"
+                               style="-fx-text-fill:#E8EDF3; -fx-font-size:20px; -fx-font-weight:700; -fx-font-family:'Montserrat','Segoe UI',sans-serif;"/>
+
+                        <!-- empujar a la derecha -->
+                        <Region HBox.hgrow="ALWAYS"/>
+
+                        <!-- Botón Apagar con ÍCONO VECTORIAL (siempre visible) -->
+                        <Button fx:id="btnPower" onAction="#onPowerOff"
+                                focusTraversable="false" mnemonicParsing="false"
+                                prefWidth="36" prefHeight="36"
+                                minWidth="36" minHeight="36"
+                                maxWidth="36" maxHeight="36"
+                                contentDisplay="GRAPHIC_ONLY"
+                                style="
+                                    -fx-background-color: rgba(232,237,243,0.12);
+                                    -fx-background-radius: 18;
+                                    -fx-border-color: rgba(232,237,243,0.35);
+                                    -fx-border-width: 1;
+                                    -fx-border-radius: 18;
+                                    -fx-cursor: hand;">
+                            <graphic>
+                                <!-- Lienzo de 36x36; todo centrado y simétrico -->
+                                <Pane prefWidth="36" prefHeight="36" minWidth="36" minHeight="36" maxWidth="36" maxHeight="36">
+                                    <children>
+                                        <!-- círculo de fondo -->
+                                        <Circle centerX="18" centerY="18" radius="18"
+                                                stroke="#E8EDF3" strokeWidth="0.0"
+                                                fill="rgba(232,237,243,0.00)"/>
+                                        <!-- arco del power -->
+                                        <Arc centerX="18" centerY="19" radiusX="9" radiusY="9"
+                                             startAngle="45" length="270" type="OPEN"
+                                             stroke="#E8EDF3" strokeWidth="2.4" fill="transparent"/>
+                                        <!-- línea vertical -->
+                                        <Line startX="18" startY="6" endX="18" endY="14"
+                                              stroke="#E8EDF3" strokeWidth="2.6" strokeLineCap="ROUND"/>
+                                    </children>
+                                </Pane>
+                            </graphic>
+                            <tooltip><Tooltip text="Salir"/></tooltip>
+                        </Button>
+                    </children>
+                </HBox>
+
+                <!-- Tarjeta login -->
+                <StackPane fx:id="cardWrapper"
+                           AnchorPane.leftAnchor="64.0" AnchorPane.rightAnchor="64.0"
+                           AnchorPane.topAnchor="64.0" AnchorPane.bottomAnchor="64.0">
+                    <children>
+                        <!-- Centrado vertical/horizontal por StackPane -->
+                        <StackPane fx:id="loginCard"
+                                   maxWidth="620.0" alignment="CENTER_LEFT"
+                                   style="-fx-background-color:#06142A; -fx-background-radius:24; -fx-effect:dropshadow(gaussian, rgba(0,0,0,0.35), 24, 0.18, 0, 8);">
+                            <children>
+                                <VBox fx:id="cardContent" alignment="CENTER_LEFT" maxWidth="520.0" spacing="22">
+                                    <children>
+                                        <Label text="Iniciar Sesión"
+                                               style="-fx-text-fill:#E8EDF3; -fx-font-size:48px; -fx-font-weight:900; -fx-font-family:'Montserrat','Segoe UI',sans-serif;"/>
+
+                                        <!-- Usuario -->
+                                        <VBox spacing="8">
+                                            <children>
+                                                <Label text="Usuario" style="-fx-text-fill:#C8CFD8; -fx-font-size:18px; -fx-font-weight:700;"/>
+                                                <TextField fx:id="txtUsuario" prefHeight="44.0" promptText="Escribe tu usuario"
+                                                           style="-fx-background-color:#E5DCDC; -fx-background-radius:14; -fx-border-radius:14; -fx-padding:8 14 8 14; -fx-font-size:16px; -fx-text-fill:#172033;"/>
+                                            </children>
+                                        </VBox>
+
+                                        <!-- Contraseña con icono (texto) de ojo -->
+                                        <VBox spacing="8">
+                                            <children>
+                                                <Label text="Contraseña*" style="-fx-text-fill:#C8CFD8; -fx-font-size:18px; -fx-font-weight:700;"/>
+
+                                                <StackPane maxWidth="Infinity">
+                                                    <children>
+                                                        <TextField fx:id="txtPasswordVisible" promptText="••••••••" prefHeight="44.0"
+                                                                   visible="false" managed="false"
+                                                                   style="-fx-background-color:#E5DCDC; -fx-background-radius:14; -fx-border-radius:14; -fx-padding:8 44 8 14; -fx-font-size:16px; -fx-text-fill:#172033;"/>
+
+                                                        <PasswordField fx:id="txtPassword" promptText="••••••••" prefHeight="44.0"
+                                                                       style="-fx-background-color:#E5DCDC; -fx-background-radius:14; -fx-border-radius:14; -fx-padding:8 44 8 14; -fx-font-size:16px; -fx-text-fill:#172033;"/>
+
+                                                        <!-- OJO -->
+                                                        <Button fx:id="btnTogglePwd" onAction="#onTogglePassword"
+                                                                focusTraversable="false" mnemonicParsing="false"
+                                                                prefWidth="36" prefHeight="36"
+                                                                StackPane.alignment="CENTER_RIGHT"
+                                                                contentDisplay="TEXT_ONLY" text="👁"
+                                                                style="-fx-background-color:transparent; -fx-text-fill:#1b222f; -fx-font-size:18px; -fx-cursor:hand; -fx-padding:0 8 0 8;">
+                                                            <tooltip><Tooltip text="Mostrar / ocultar contraseña"/></tooltip>
+                                                        </Button>
+                                                    </children>
+                                                </StackPane>
+                                            </children>
+                                        </VBox>
+
+                                        <!-- Recuperación -->
+                                        <VBox spacing="6">
+                                            <children>
+                                                <Label text="¿Olvidaste tu contraseña?" style="-fx-text-fill:#E8EDF3; -fx-opacity:0.7; -fx-font-size:14px;"/>
+                                                <Hyperlink text="Recupérala" onAction="#onRecuperar" style="-fx-text-fill:#C7392F; -fx-font-size:16px; -fx-underline:true;"/>
+                                            </children>
+                                        </VBox>
+
+                                        <!-- Botón ingresar -->
+                                        <Button fx:id="btnIngresar" text="Ingresar" onAction="#onIngresar"
+                                                prefHeight="56.0" maxWidth="480.0"
+                                                style="-fx-background-color:#B9B6BB; -fx-text-fill:#1b222f; -fx-font-size:22px; -fx-font-weight:800; -fx-background-radius:18; -fx-cursor:hand;"/>
+                                    </children>
+
+                                    <padding><Insets top="30" right="36" bottom="36" left="36"/></padding>
+                                </VBox>
+                            </children>
+                            <padding><Insets top="28" right="28" bottom="28" left="28"/></padding>
+                        </StackPane>
+                    </children>
+                </StackPane>
+            </AnchorPane>
+        </GridPane>
+    </children>
+</AnchorPane>

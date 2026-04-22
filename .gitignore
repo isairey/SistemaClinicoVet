@@ -1,0 +1,64 @@
+# ===================================================
+# .gitignore — SOS Veterinaria
+# ===================================================
+
+# --- Build output ---
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+*.jar
+*.war
+*.class
+
+# --- Environment & Secrets ---
+.env
+*.env
+!.env.example
+
+# --- IntelliJ IDEA ---
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# --- Eclipse ---
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache
+
+# --- NetBeans ---
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# --- VS Code ---
+.vscode/
+
+# --- OS generated files ---
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# --- Logs ---
+*.log
+logs/
+hs_err_pid*
+
+# JAR files (exclude compiled artifacts)
+*.jar
+
+# Release binaries (generated, not versioned)
+release/
+*.exe
+*.msi

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="root"
+            xmlns="http://javafx.com/javafx/24.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="co.edu.upb.veterinaria.controllers.ControllerClientVisualizeRegister.VisualizeRegisterClient"
+            prefHeight="1000.0" prefWidth="992.0"
+            style="-fx-background-color:#DFD6D6;">
+
+    <!-- Barra superior con logo + (campana / perfil) -->
+    <HBox alignment="CENTER_LEFT" spacing="10"
+          prefHeight="70.0"
+          style="-fx-background-color:#FFFFFF;"
+          AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <padding><Insets left="18" right="18"/></padding>
+
+        <ImageView fx:id="topLogo" onMouseClicked="#onLogoClick"
+                   fitHeight="150.0" fitWidth="150.0" preserveRatio="true" pickOnBounds="true">
+            <image><Image url="@../../images/logoPrincipal.png"/></image>
+        </ImageView>
+
+        <Region HBox.hgrow="ALWAYS"/>
+
+        <MenuButton fx:id="mbNotificaciones" text="🔔"
+                    style="-fx-background-color:transparent; -fx-font-size:23px; -fx-padding:6 10; -fx-text-fill:#113051;">
+            <items>
+                <MenuItem fx:id="miVerNotificaciones" text="Ver notificaciones" onAction="#onVerNotificaciones"/>
+            </items>
+        </MenuButton>
+
+        <MenuButton fx:id="mbPerfil" text="👤"
+                    style="-fx-background-color:transparent; -fx-font-size:23px; -fx-padding:6 10; -fx-text-fill:#113051;">
+            <items>
+                <MenuItem fx:id="miDatosPersonales" text="Datos personales" onAction="#onDatosPersonales"/>
+                <MenuItem fx:id="miCerrarSesion"   text="Cerrar sesión"    onAction="#onCerrarSesion"/>
+            </items>
+        </MenuButton>
+    </HBox>
+
+    <!-- Menú superior -->
+    <HBox alignment="CENTER" spacing="32"
+          layoutY="70.0" prefHeight="100.0"
+          style="-fx-background-color:#113051;"
+          AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <Button fx:id="btnRegistrarProductos" text="Registrar Productos" onAction="#onRegistrarProductos"
+                prefHeight="36.0" minWidth="160.0"
+                style="-fx-background-color:#0FB9BA; -fx-text-fill:white; -fx-font-size:13px; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:6 12;"/>
+        <Button fx:id="btnInventario" text="Inventario" onAction="#onInventario"
+                prefHeight="36.0" minWidth="130.0"
+                style="-fx-background-color:#0FB9BA; -fx-text-fill:white; -fx-font-size:13px; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:6 12;"/>
+        <Button fx:id="btnGestionarUsuario" text="Gestionar Usuario" onAction="#onGestionarUsuario"
+                prefHeight="36.0" minWidth="150.0"
+                style="-fx-background-color:#0FB9BA; -fx-text-fill:white; -fx-font-size:13px; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:6 12;"/>
+        <Button fx:id="btnVentasTop" text="Ventas" onAction="#onVentasTop"
+                prefHeight="36.0" minWidth="110.0"
+                style="-fx-background-color:#0FB9BA; -fx-text-fill:white; -fx-font-size:13px; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:6 12;"/>
+        <Button fx:id="btnAgregarClientesTop" text="Agregar Clientes" onAction="#onAgregarClientesTop"
+                prefHeight="36.0" minWidth="150.0"
+                style="-fx-background-color:#0FB9BA; -fx-text-fill:white; -fx-font-size:13px; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:6 12;"/>
+        <Button fx:id="btnAdministrarProveedoresTop" text="Administrar Proveedores" onAction="#onAdministrarProveedoresTop"
+                prefHeight="36.0" minWidth="200.0"
+                style="-fx-background-color:#0FB9BA; -fx-text-fill:white; -fx-font-size:13px; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:6 12;"/>
+    </HBox>
+
+    <!-- Panel central -->
+    <AnchorPane AnchorPane.topAnchor="205.0"
+                AnchorPane.bottomAnchor="20.0"
+                AnchorPane.leftAnchor="26.0"
+                AnchorPane.rightAnchor="26.0"
+                style="-fx-background-color:#173751; -fx-background-radius:18;
+                       -fx-border-color:#2E3F52; -fx-border-width:5; -fx-border-radius:18;">
+
+        <!-- Título + Volver -->
+        <HBox alignment="CENTER_LEFT" spacing="12"
+              AnchorPane.topAnchor="10.0" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="18.0">
+            <Button fx:id="btnVolver" text="Volver" onAction="#onVolver"
+                    style="-fx-background-color:#E6DEDE; -fx-text-fill:#1C2A3A; -fx-font-weight:bold; -fx-background-radius:10; -fx-padding:6 12;"/>
+            <Region HBox.hgrow="ALWAYS"/>
+        </HBox>
+
+        <VBox spacing="18"
+              AnchorPane.topAnchor="46.0" AnchorPane.leftAnchor="18.0"
+              AnchorPane.rightAnchor="18.0" AnchorPane.bottomAnchor="18.0">
+
+            <!-- Encabezado -->
+            <VBox spacing="6" alignment="CENTER">
+                <Label text="Clientes - Registros"
+                       style="-fx-text-fill:#E9EEF3; -fx-font-size:32px; -fx-font-weight:bold;"/>
+                <Label text="Visualiza la información de los clientes y sus mascotas. Usa el buscador y los filtros para encontrar lo que necesitas."
+                       wrapText="true"
+                       style="-fx-text-fill:#B9C6D3; -fx-font-size:13px;"/>
+            </VBox>
+
+            <!-- Barra de búsqueda -->
+            <AnchorPane style="-fx-background-color:#3E566D; -fx-background-radius:12; -fx-padding:14;">
+                <HBox alignment="CENTER_LEFT" spacing="12"
+                      AnchorPane.leftAnchor="12.0" AnchorPane.rightAnchor="12.0">
+                    <Label text="Buscar:" style="-fx-text-fill:#E6ECF2; -fx-font-size:15px; -fx-font-weight:bold;"/>
+                    <TextField fx:id="tfBuscar" HBox.hgrow="ALWAYS"
+                               promptText="Escribe nombre, documento, ciudad, mascota, etc."
+                               style="-fx-background-color:#E1E7EE; -fx-background-radius:10; -fx-padding:10 14; -fx-font-size:14px;"/>
+                    <Button fx:id="btnFiltrar" text="Filtrar" onAction="#onFiltrar"
+                            style="-fx-background-color:#607489; -fx-text-fill:white; -fx-font-weight:bold; -fx-background-radius:10; -fx-padding:8 16;"/>
+                    <Button fx:id="btnBuscar" text="Buscar" onAction="#onBuscar"
+                            style="-fx-background-color:#0FB9BA; -fx-text-fill:white; -fx-font-weight:bold; -fx-background-radius:10; -fx-padding:8 16;"/>
+                    <!-- NUEVO: botón Limpiar -->
+                    <Button fx:id="btnLimpiar" text="Limpiar" onAction="#onLimpiar"
+                            style="-fx-background-color:#B6C2CF; -fx-text-fill:#13273B; -fx-font-weight:bold; -fx-background-radius:10; -fx-padding:8 16;"/>
+                </HBox>
+            </AnchorPane>
+
+            <!-- Tarjeta con tabla + SCROLL HORIZONTAL -->
+            <AnchorPane style="-fx-background-color:white; -fx-background-radius:14; -fx-padding:16;">
+                <ScrollPane fx:id="scrollTabla"
+                            fitToWidth="false" fitToHeight="true"
+                            vbarPolicy="ALWAYS" hbarPolicy="ALWAYS"
+                            style="-fx-background-color:transparent; -fx-background-insets:0;"
+                            AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                            AnchorPane.bottomAnchor="52.0">
+                    <content>
+                        <!-- Ampliado para incluir la nueva columna 'Raza' -->
+                        <VBox fx:id="tableWrapper" spacing="8" style="-fx-background-color:white;" prefWidth="4840.0">
+                            <TableView fx:id="tblClientes" prefHeight="560.0" prefWidth="3850.0"
+                                       style="-fx-font-size:14px; -fx-table-cell-border-color:#D7DBE2; -fx-padding:0; -fx-background-radius:10; -fx-border-color:#D7DBE2; -fx-border-radius:10;">
+                                <columns>
+                                    <TableColumn fx:id="colId"            text="ID"                                 prefWidth="100.0"/>
+
+                                    <!-- Datos del Cliente -->
+                                    <TableColumn fx:id="colTipoPersona"   text="Tipo Persona"                       prefWidth="250.0"/>
+                                    <TableColumn fx:id="colTipoDocumento" text="Tipo Documento"                     prefWidth="250.0"/>
+                                    <TableColumn fx:id="colNumeroDoc"     text="Número Documento"                   prefWidth="250.0"/>
+                                    <TableColumn fx:id="colNombre"        text="Nombre"                             prefWidth="300.0"/>
+                                    <TableColumn fx:id="colApellidos"     text="Apellidos"                          prefWidth="300.0"/>
+                                    <TableColumn fx:id="colFechaNac"      text="Fecha Nacimiento"                   prefWidth="250.0"/>
+                                    <TableColumn fx:id="colCiudad"        text="Ciudad"                             prefWidth="250.0"/>
+                                    <TableColumn fx:id="colEmail"         text="Email"                              prefWidth="250.0"/>
+                                    <TableColumn fx:id="colDireccion"     text="Dirección"                          prefWidth="285.0"/>
+                                    <TableColumn fx:id="colTelefono"      text="Teléfono"                           prefWidth="250.0"/>
+                                    <TableColumn fx:id="colContactoNom"   text="Contacto Emergencia (Nombre)"       prefWidth="300.0"/>
+                                    <TableColumn fx:id="colContactoTel"   text="Contacto Emergencia (Teléfono)"     prefWidth="300.0"/>
+
+                                    <!-- Datos de Mascota -->
+                                    <TableColumn fx:id="colMascotaNombre" text="Mascota"                            prefWidth="250.0"/>
+                                    <!-- NUEVA COLUMNA: Raza (entre Mascota y Especie) -->
+                                    <TableColumn fx:id="colRaza"          text="Raza"                               prefWidth="220.0"/>
+                                    <TableColumn fx:id="colEspecie"       text="Especie"                            prefWidth="250.0"/>
+                                    <TableColumn fx:id="colSexo"          text="Sexo"                               prefWidth="250.0"/>
+                                    <TableColumn fx:id="colEdad"          text="Edad"                               prefWidth="250.0"/>
+                                    <TableColumn fx:id="colChip"          text="N° chip"                            prefWidth="280.0"/>
+                                    <!-- (Eliminada la columna 'Procedimiento Quirúrgico') -->
+                                </columns>
+                                <placeholder>
+                                    <Label text="No hay resultados. Ajusta los filtros o realiza una búsqueda."
+                                           style="-fx-text-fill:#607489; -fx-font-size:13px;"/>
+                                </placeholder>
+                            </TableView>
+
+                            <Label text="Consejo: usa el buscador y el filtro para localizar clientes por nombre, documento, ciudad o mascota."
+                                   style="-fx-text-fill:#6A7C90; -fx-font-size:12px; -fx-padding:6 2 0 2;"/>
+                        </VBox>
+                    </content>
+                </ScrollPane>
+
+                <!-- Botones abajo a la derecha -->
+                <HBox spacing="12" AnchorPane.rightAnchor="18.0" AnchorPane.bottomAnchor="8.0">
+                    <Button fx:id="btnVerProcedimiento" text="Ver Historial Clínico" onAction="#onVerProcedimiento"
+                            style="-fx-background-color:#16324A; -fx-text-fill:white; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:6 14; -fx-font-size:12px;"/>
+                    <Button fx:id="btnDeshacer" text="Deshacer" onAction="#onDeshacer"
+                            style="-fx-background-color:#7A91A7; -fx-text-fill:white; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:6 14; -fx-font-size:12px;"/>
+                    <Button fx:id="btnEditar" text="Editar" onAction="#onEditar"
+                            style="-fx-background-color:#0FB9BA; -fx-text-fill:white; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:6 14; -fx-font-size:12px;"/>
+                    <Button fx:id="btnEliminar" text="Eliminar" onAction="#onEliminar"
+                            style="-fx-background-color:#E45858; -fx-text-fill:white; -fx-font-weight:bold; -fx-background-radius:8; -fx-padding:6 14; -fx-font-size:12px;"/>
+                </HBox>
+            </AnchorPane>
+        </VBox>
+    </AnchorPane>
+</AnchorPane>

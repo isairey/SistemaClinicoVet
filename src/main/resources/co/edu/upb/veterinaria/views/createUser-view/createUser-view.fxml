@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane fx:id="root"
+            xmlns="http://javafx.com/javafx/24.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="co.edu.upb.veterinaria.controllers.ControllerCreateUser.UserCreate"
+            prefHeight="720.0" prefWidth="1200.0"
+            style="-fx-background-color:#DFD6D6;">
+
+    <!-- LOGO (click -> MainMenu) -->
+    <ImageView fx:id="topLogo"
+               onMouseClicked="#onLogoClick"
+               AnchorPane.topAnchor="26.0" AnchorPane.leftAnchor="26.0"
+               fitHeight="150.0" fitWidth="150.0"
+               preserveRatio="true" pickOnBounds="true">
+        <image><Image url="@../../images/logoPrincipal.png"/></image>
+    </ImageView>
+
+    <!-- Botón Volver (-> MainMenu) -->
+    <Button fx:id="btnVolver" text="Volver" onAction="#onVolver"
+            AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="100.0"
+            prefHeight="36.0" minWidth="150.0"
+            style="-fx-background-color:#DFD6D6; -fx-text-fill:#113051; -fx-font-weight:bold; -fx-background-radius:10; -fx-border-color:#113051; -fx-border-radius:10; -fx-border-width:1; -fx-padding:6 12;"/>
+
+    <!-- FRANJA CENTRAL CON SCROLL -->
+    <AnchorPane fx:id="bandPanel"
+                AnchorPane.topAnchor="20.0" AnchorPane.rightAnchor="20.0"
+                AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="200.0"
+                style="-fx-background-color:#113051; -fx-background-radius:18; -fx-border-color:#2E3F52; -fx-border-width:5; -fx-border-radius:18;">
+
+        <!-- ScrollPane para contenido desplazable -->
+        <ScrollPane fitToWidth="true" fitToHeight="true" 
+                    style="-fx-background-color: transparent; -fx-background: transparent;"
+                    AnchorPane.topAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                    AnchorPane.rightAnchor="0.0" AnchorPane.bottomAnchor="0.0">
+            <padding><Insets top="40" right="40" bottom="40" left="40"/></padding>
+
+            <!-- Contenido centrado -->
+            <VBox spacing="22">
+
+            <!-- “Tarjeta” centrada -->
+            <HBox alignment="CENTER">
+                <VBox spacing="48" style="-fx-background-color:#0E2740; -fx-background-radius:16;"
+                      maxWidth="820">
+                    <padding><Insets top="26" right="30" bottom="26" left="30"/></padding>
+
+                    <Label text="Gestión Usuarios"
+                           style="-fx-text-fill:white; -fx-font-size:28px; -fx-font-weight:800;"
+                           maxWidth="Infinity"/>
+
+                    <Label text="Este módulo permite crear usuarios y asignarles sus respectivos permisos."
+                           wrapText="true"
+                           style="-fx-text-fill:#C9D3DD; -fx-font-size:14px;"
+                           maxWidth="Infinity"/>
+
+                    <!-- Campos -->
+                    <VBox spacing="12">
+                        <Label text="Cédula"
+                               style="-fx-text-fill:#EAF0F6; -fx-font-size:15px; -fx-font-weight:600;"/>
+                        <TextField fx:id="tfCedula" promptText="Cédula del usuario"
+                                   maxWidth="760"
+                                   style="-fx-background-color:#D9D4D6; -fx-background-radius:10; -fx-padding:10 14; -fx-font-size:14px;"/>
+                    </VBox>
+
+                    <HBox spacing="16">
+                        <VBox spacing="12" HBox.hgrow="ALWAYS">
+                            <Label text="Nombre"
+                                   style="-fx-text-fill:#EAF0F6; -fx-font-size:15px; -fx-font-weight:600;"/>
+                            <TextField fx:id="tfNombre" promptText="Nombre del usuario"
+                                       style="-fx-background-color:#D9D4D6; -fx-background-radius:10; -fx-padding:10 14; -fx-font-size:14px;"/>
+                        </VBox>
+                        <VBox spacing="12" HBox.hgrow="ALWAYS">
+                            <Label text="Apellidos"
+                                   style="-fx-text-fill:#EAF0F6; -fx-font-size:15px; -fx-font-weight:600;"/>
+                            <TextField fx:id="tfApellidos" promptText="Apellidos del usuario"
+                                       style="-fx-background-color:#D9D4D6; -fx-background-radius:10; -fx-padding:10 14; -fx-font-size:14px;"/>
+                        </VBox>
+                    </HBox>
+
+                    <VBox spacing="12">
+                        <Label text="Nombre de Usuario"
+                               style="-fx-text-fill:#EAF0F6; -fx-font-size:15px; -fx-font-weight:600;"/>
+                        <TextField fx:id="tfNombreUsuario" promptText="Nombre de usuario para el sistema"
+                                   maxWidth="760"
+                                   style="-fx-background-color:#D9D4D6; -fx-background-radius:10; -fx-padding:10 14; -fx-font-size:14px;"/>
+                    </VBox>
+
+                    <HBox spacing="16">
+                        <VBox spacing="12" HBox.hgrow="ALWAYS">
+                            <Label text="Email"
+                                   style="-fx-text-fill:#EAF0F6; -fx-font-size:15px; -fx-font-weight:600;"/>
+                            <TextField fx:id="tfEmail" promptText="correo@ejemplo.com"
+                                       style="-fx-background-color:#D9D4D6; -fx-background-radius:10; -fx-padding:10 14; -fx-font-size:14px;"/>
+                        </VBox>
+                        <VBox spacing="12" HBox.hgrow="ALWAYS">
+                            <Label text="Teléfono"
+                                   style="-fx-text-fill:#EAF0F6; -fx-font-size:15px; -fx-font-weight:600;"/>
+                            <TextField fx:id="tfTelefono" promptText="Teléfono de contacto"
+                                       style="-fx-background-color:#D9D4D6; -fx-background-radius:10; -fx-padding:10 14; -fx-font-size:14px;"/>
+                        </VBox>
+                    </HBox>
+
+                    <VBox spacing="12">
+                        <Label text="Dirección"
+                               style="-fx-text-fill:#EAF0F6; -fx-font-size:15px; -fx-font-weight:600;"/>
+                        <TextField fx:id="tfDireccion" promptText="Dirección de residencia"
+                                   maxWidth="760"
+                                   style="-fx-background-color:#D9D4D6; -fx-background-radius:10; -fx-padding:10 14; -fx-font-size:14px;"/>
+                    </VBox>
+
+                    <VBox spacing="12">
+                        <Label text="Nueva Contraseña"
+                               style="-fx-text-fill:#EAF0F6; -fx-font-size:15px; -fx-font-weight:600;"/>
+                        <PasswordField fx:id="pfNuevaContrasena" promptText="Escribe la nueva contraseña"
+                                       maxWidth="760"
+                                       style="-fx-background-color:#D9D4D6; -fx-background-radius:10; -fx-padding:10 14; -fx-font-size:14px;"/>
+                    </VBox>
+
+                    <VBox spacing="12">
+                        <Label text="Confirmar Contraseña"
+                               style="-fx-text-fill:#EAF0F6; -fx-font-size:15px; -fx-font-weight:600;"/>
+                        <PasswordField fx:id="pfConfirmarContrasena" promptText="Repite la contraseña"
+                                       maxWidth="760"
+                                       style="-fx-background-color:#D9D4D6; -fx-background-radius:10; -fx-padding:10 14; -fx-font-size:14px;"/>
+                    </VBox>
+
+                    <VBox spacing="14">
+                        <Label text="Módulos del Usuario (Permisos)"
+                               style="-fx-text-fill:#EAF0F6; -fx-font-size:15px; -fx-font-weight:600;"/>
+                        <Label text="Selecciona los módulos a los que el usuario tendrá acceso:"
+                               wrapText="true"
+                               style="-fx-text-fill:#C9D3DD; -fx-font-size:13px;"
+                               maxWidth="Infinity"/>
+                        <VBox fx:id="vboxModulos" spacing="10" maxWidth="760"
+                              style="-fx-background-color:#1A3A52; -fx-background-radius:10; -fx-padding:16;">
+                            <!-- Los CheckBox se agregarán dinámicamente desde el controlador -->
+                        </VBox>
+                    </VBox>
+
+                    <!-- Botón crear (placeholder) -->
+                    <HBox alignment="CENTER">
+                        <Button fx:id="btnCrear" text="Crear" onAction="#onCrear"
+                                prefHeight="42.0" minWidth="220.0"
+                                style="-fx-background-color:white; -fx-text-fill:#0E2740; -fx-font-weight:bold; -fx-font-size:16px; -fx-background-radius:12; -fx-padding:8 18;"/>
+                    </HBox>
+                </VBox>
+            </HBox>
+
+            <!-- Botón Modificar Usuario (-> UserSection) -->
+            <HBox alignment="CENTER">
+                <padding><Insets top="20"/></padding>
+                <Button fx:id="btnModificar" text="Modificar Usuario" onAction="#onModificar"
+                        prefHeight="44.0" minWidth="200.0"
+                        style="-fx-background-color:#0FB9BA; -fx-text-fill:white; -fx-font-size:16px; -fx-font-weight:bold; -fx-background-radius:10; -fx-padding:8 16;"/>
+            </HBox>
+            </VBox>
+        </ScrollPane>
+    </AnchorPane>
+</AnchorPane>

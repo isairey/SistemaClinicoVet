@@ -1,0 +1,46 @@
+# ===================================================
+# CONFIGURACIÓN DE EMAIL - SOS VETERINARIA
+# ===================================================
+# 
+# ⚠️ INSTRUCCIONES PARA GMAIL:
+# 
+# 1. Ve a tu cuenta de Google: https://myaccount.google.com/
+# 2. Busca "Seguridad" en el menú izquierdo
+# 3. En "Acceso a aplicaciones menos seguras", habilita esta opción
+#    O MEJOR AÚN, usa "Contraseñas de aplicaciones":
+#    - Busca "Contraseñas de aplicaciones"
+#    - Genera una nueva contraseña para "Correo" y "Otro dispositivo personalizado"
+#    - Copia la contraseña de 16 caracteres generada
+# 
+# 4. Reemplaza los valores abajo con tu información
+# 
+# ===================================================
+
+# Servidor SMTP
+smtp.host=smtp.gmail.com
+smtp.port=587
+
+# Credenciales (⚠️ CAMBIAR POR TUS DATOS)
+email.from=tucorreo@gmail.com
+email.password=tu_contraseña_de_aplicacion_16_caracteres
+
+# Nombre que aparecerá como remitente
+email.from.name=SOS Veterinaria
+
+# ===================================================
+# OTROS PROVEEDORES DE EMAIL
+# ===================================================
+
+# --- OUTLOOK ---
+# smtp.host=smtp-mail.outlook.com
+# smtp.port=587
+# email.from=tucorreo@outlook.com
+# email.password=tu_contraseña
+
+# --- OFFICE 365 ---
+# smtp.host=smtp.office365.com
+# smtp.port=587
+
+# --- YAHOO ---
+# smtp.host=smtp.mail.yahoo.com
+# smtp.port=587

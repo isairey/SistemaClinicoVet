@@ -1,0 +1,803 @@
+package co.edu.upb.veterinaria.controllers.ControllerInventaryJugueteAccs;
+
+import co.edu.upb.veterinaria.models.ModeloAccesorio.Accesorio;
+import co.edu.upb.veterinaria.models.ModeloMarca.Marca;
+import co.edu.upb.veterinaria.models.ModeloProveedor.Proveedor;
+import co.edu.upb.veterinaria.services.ServicioAccesorio.AccesorioService;
+import co.edu.upb.veterinaria.services.ServicioMarca.MarcaService;
+import co.edu.upb.veterinaria.services.ServicioProveedor.ProveedorService;
+import javafx.application.Platform;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.nio.file.Files;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Optional;
+
+/** Inventario (Juguete/Accesorio) – con funcionalidad completa */
+public class InventaryJugueteAccsController {
+
+    // ===== RUTAS GENERALES =====
+    private static final String MAINMENU_FXML =
+            "/co/edu/upb/veterinaria/views/mainMenu-view/mainMenu-view.fxml";
+    private static final String SEENOTIFICATIONS_FXML =
+            "/co/edu/upb/veterinaria/views/SeeNotifications-view/SeeNotifications-view.fxml";
+    private static final String PERSONALDATA_FXML =
+            "/co/edu/upb/veterinaria/views/personalData-view/personalData.fxml";
+    private static final String LOGIN_FXML =
+            "/co/edu/upb/veterinaria/views/Login/Login.fxml";
+
+    private static final String REGISTER_PRODUCT_FXML =
+            "/co/edu/upb/veterinaria/views/registerProduct-view/registerProduct-view.fxml";
+    private static final String CREATE_USER_FXML =
+            "/co/edu/upb/veterinaria/views/createUser-view/createUser-view.fxml";
+    private static final String VISUALIZE_REGISTER_FXML =
+            "/co/edu/upb/veterinaria/views/visualizeRegister-view/visualizeRegister-view.fxml";
+    private static final String SECTION_SALES_FXML =
+            "/co/edu/upb/veterinaria/views/SectionSales-view/SectionSales-view.fxml";
+    private static final String ADD_CLIENT_FXML =
+            "/co/edu/upb/veterinaria/views/AddClient-view/AddClient-view.fxml";
+    private static final String ADD_SUPPLIERS_FXML =
+            "/co/edu/upb/veterinaria/views/AddSuppliers-view/AddSuppliers-view.fxml";
+
+    // ===== ENTRE INVENTARIOS =====
+    private static final String INVENTORY_FXML =
+            "/co/edu/upb/veterinaria/views/inventary-view/inventary-view.fxml";
+    private static final String INVENTORY_MEDICAMENT_FXML =
+            "/co/edu/upb/veterinaria/views/inventaryMedicamento-view/inventaryMedicament-view.fxml";
+    private static final String INVENTORY_ALIMENT_FXML =
+            "/co/edu/upb/veterinaria/views/inventaryAliment-view/inventaryAliment-view.fxml";
+    private static final String INVENTORY_MATERIALQ_FXML =
+            "/co/edu/upb/veterinaria/views/inventaryMaterialQ-view/inventaryMaterialQ-view.fxml";
+
+    // ===== SERVICIOS =====
+    private final AccesorioService accesorioService;
+    private final MarcaService marcaService;
+    private final ProveedorService proveedorService;
+
+    // ===== DATOS =====
+    private final ObservableList<Accesorio> listaAccesorios;
+    private final ObservableList<Accesorio> listaFiltrada;
+
+    // ===== Root / contenedores =====
+    @FXML private AnchorPane root;
+    @FXML private ScrollPane scrollTabla;
+    @FXML private VBox tableWrapper;
+    @FXML private TableView<Accesorio> tblInventario;
+
+    // ===== Header =====
+    @FXML private ImageView topLogo;
+    @FXML private MenuButton mbNotificaciones;
+    @FXML private MenuItem   miVerNotificaciones;
+    @FXML private MenuButton mbPerfil;
+    @FXML private MenuItem   miDatosPersonales, miCerrarSesion;
+
+    // ===== Menú superior =====
+    @FXML private Button btnRegistrarProductos, btnGestionarUsuario, btnVisualizarRegistros,
+            btnVentas, btnAgregarClientes, btnAdministrarProveedores;
+
+    // ===== Botones de categoría =====
+    @FXML private Button btnMedicamento, btnAlimento, btnMaterial;
+
+    // ===== Buscador =====
+    @FXML private TextField tfBuscar;
+    @FXML private Button btnFiltrar, btnBuscar, btnLimpiar;
+
+    // ===== Acciones =====
+    @FXML private Button btnDeshacer, btnEditarSeleccion, btnEliminarSeleccion;
+
+    // ===== Volver =====
+    @FXML private Button btnVolver;
+
+    // ===== Columnas =====
+    @FXML private TableColumn<Accesorio, Integer> colIdProducto;
+    @FXML private TableColumn<Accesorio, String> colNombre;
+    @FXML private TableColumn<Accesorio, ImageView> colFoto;
+    @FXML private TableColumn<Accesorio, String> colReferencia;
+    @FXML private TableColumn<Accesorio, String> colCodigoBarras;
+    @FXML private TableColumn<Accesorio, String> colPrecio;
+    @FXML private TableColumn<Accesorio, String> colCosto;
+    @FXML private TableColumn<Accesorio, String> colMarca;
+    @FXML private TableColumn<Accesorio, String> colDescripcion;
+    @FXML private TableColumn<Accesorio, String> colProveedor;
+    @FXML private TableColumn<Accesorio, Integer> colStock;
+
+    public InventaryJugueteAccsController() {
+        this.accesorioService = new AccesorioService();
+        this.marcaService = new MarcaService();
+        this.proveedorService = new ProveedorService();
+        this.listaAccesorios = FXCollections.observableArrayList();
+        this.listaFiltrada = FXCollections.observableArrayList();
+    }
+
+    @FXML
+    private void initialize() {
+        Platform.runLater(() -> {
+            Stage stage = (Stage) root.getScene().getWindow();
+            if (stage != null) {
+                stage.setResizable(true);
+                stage.setMaximized(true);
+            }
+        });
+
+        if (tblInventario != null) {
+            tblInventario.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
+        }
+
+        if (scrollTabla != null) {
+            scrollTabla.setFitToWidth(false);
+            scrollTabla.setFitToHeight(true);
+            scrollTabla.setHbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+            scrollTabla.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        }
+
+        configurarColumnas();
+        cargarAccesorios();
+    }
+
+    private void configurarColumnas() {
+        colIdProducto.setCellValueFactory(data ->
+            new SimpleObjectProperty<>(data.getValue().getIdProducto()));
+
+        colNombre.setCellValueFactory(data ->
+            new SimpleStringProperty(data.getValue().getNombre()));
+
+        colFoto.setCellValueFactory(data -> {
+            Accesorio a = data.getValue();
+            ImageView imgView = new ImageView();
+            imgView.setFitWidth(80);
+            imgView.setFitHeight(80);
+            imgView.setPreserveRatio(true);
+
+            if (a.getImagenProducto() != null && a.getImagenProducto().length > 0) {
+                try {
+                    Image img = new Image(new ByteArrayInputStream(a.getImagenProducto()));
+                    imgView.setImage(img);
+                } catch (Exception e) {
+                    imgView.setImage(null);
+                }
+            }
+            return new SimpleObjectProperty<>(imgView);
+        });
+
+        colReferencia.setCellValueFactory(data ->
+            new SimpleStringProperty(data.getValue().getReferencia()));
+
+        colCodigoBarras.setCellValueFactory(data ->
+            new SimpleStringProperty(data.getValue().getCodigoBarras()));
+
+        colPrecio.setCellValueFactory(data ->
+            new SimpleStringProperty(String.format("$%.2f", data.getValue().getPrecio())));
+
+        colCosto.setCellValueFactory(data ->
+            new SimpleStringProperty(String.format("$%.2f", data.getValue().getCosto())));
+
+        colMarca.setCellValueFactory(data -> {
+            Marca marca = data.getValue().getMarca();
+            return new SimpleStringProperty(marca != null ? marca.getNombreMarca() : "N/A");
+        });
+
+        colDescripcion.setCellValueFactory(data ->
+            new SimpleStringProperty(data.getValue().getDescripcion()));
+
+        colProveedor.setCellValueFactory(data -> {
+            Proveedor prov = data.getValue().getProveedor();
+            return new SimpleStringProperty(prov != null ? prov.getNombre() : "N/A");
+        });
+
+        colStock.setCellValueFactory(data ->
+            new SimpleObjectProperty<>(data.getValue().getStock()));
+    }
+
+    private void cargarAccesorios() {
+        try {
+            System.out.println("🔄 Intentando cargar juguetes/accesorios...");
+            List<Accesorio> accesorios = accesorioService.listarTodos();
+            System.out.println("✅ Juguetes/Accesorios cargados desde BD: " + accesorios.size());
+
+            listaAccesorios.clear();
+            listaAccesorios.addAll(accesorios);
+            listaFiltrada.clear();
+            listaFiltrada.addAll(accesorios);
+            tblInventario.setItems(listaFiltrada);
+
+            System.out.println("✅ Juguetes/Accesorios mostrados en tabla: " + listaFiltrada.size());
+
+            if (accesorios.isEmpty()) {
+                mostrarInfo("Información", "No hay juguetes/accesorios registrados en el sistema.\nRegistre productos tipo 'Juguete/Accesorio' desde el módulo de Registro de Productos.");
+            }
+        } catch (SQLException e) {
+            System.err.println("❌ Error al cargar juguetes/accesorios: " + e.getMessage());
+            e.printStackTrace();
+            mostrarError("Error al cargar juguetes/accesorios",
+                "No se pudieron cargar los juguetes/accesorios: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("❌ Error inesperado: " + e.getMessage());
+            e.printStackTrace();
+            mostrarError("Error inesperado", "Error: " + e.getMessage());
+        }
+    }
+
+    // ===== BÚSQUEDA Y FILTROS =====
+    @FXML
+    private void onBuscar() {
+        String textoBusqueda = tfBuscar.getText();
+        if (textoBusqueda == null || textoBusqueda.trim().isEmpty()) {
+            listaFiltrada.clear();
+            listaFiltrada.addAll(listaAccesorios);
+            tblInventario.setItems(listaFiltrada);
+            return;
+        }
+
+        String busqueda = textoBusqueda.toLowerCase().trim();
+        listaFiltrada.clear();
+
+        for (Accesorio a : listaAccesorios) {
+            if ((a.getNombre() != null && a.getNombre().toLowerCase().contains(busqueda)) ||
+                (a.getReferencia() != null && a.getReferencia().toLowerCase().contains(busqueda)) ||
+                (a.getCodigoBarras() != null && a.getCodigoBarras().toLowerCase().contains(busqueda)) ||
+                (a.getMarca() != null && a.getMarca().getNombreMarca() != null &&
+                    a.getMarca().getNombreMarca().toLowerCase().contains(busqueda)) ||
+                (a.getProveedor() != null && a.getProveedor().getNombre() != null &&
+                    a.getProveedor().getNombre().toLowerCase().contains(busqueda)) ||
+                (a.getDescripcion() != null && a.getDescripcion().toLowerCase().contains(busqueda))) {
+                listaFiltrada.add(a);
+            }
+        }
+
+        tblInventario.setItems(listaFiltrada);
+    }
+
+    @FXML
+    private void onFiltrar() {
+        mostrarDialogoFiltrosAvanzados();
+    }
+
+    private void mostrarDialogoFiltrosAvanzados() {
+        Stage dialog = new Stage();
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.setTitle("Filtros Avanzados - Juguetes/Accesorios");
+
+        GridPane grid = new GridPane();
+        grid.setHgap(15);
+        grid.setVgap(12);
+        grid.setPadding(new Insets(25));
+        grid.setStyle("-fx-background-color: #f5f5f5;");
+
+        int row = 0;
+
+        // Título
+        Label titulo = new Label("Filtrar Juguetes/Accesorios");
+        titulo.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #113051;");
+        grid.add(titulo, 0, row++, 2, 1);
+
+        // Separador
+        Label separador1 = new Label("━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+        separador1.setStyle("-fx-text-fill: #0FB9BA;");
+        grid.add(separador1, 0, row++, 2, 1);
+
+        // Filtro por marca
+        grid.add(new Label("Marca:"), 0, row);
+        ComboBox<Marca> cbFiltroMarca = new ComboBox<>();
+        cbFiltroMarca.setPromptText("Todas las marcas");
+        cbFiltroMarca.setPrefWidth(250);
+        try {
+            List<Marca> marcas = marcaService.listarTodasLasMarcas();
+            cbFiltroMarca.getItems().add(null);
+            cbFiltroMarca.getItems().addAll(marcas);
+            cbFiltroMarca.setConverter(new javafx.util.StringConverter<>() {
+                @Override
+                public String toString(Marca marca) {
+                    return marca != null ? marca.getNombreMarca() : "Todas las marcas";
+                }
+                @Override
+                public Marca fromString(String string) {
+                    return null;
+                }
+            });
+            cbFiltroMarca.getSelectionModel().selectFirst();
+        } catch (SQLException e) {
+            mostrarError("Error", "No se pudieron cargar las marcas");
+        }
+        grid.add(cbFiltroMarca, 1, row++);
+
+        // Filtro por proveedor
+        grid.add(new Label("Proveedor:"), 0, row);
+        ComboBox<Proveedor> cbFiltroProveedor = new ComboBox<>();
+        cbFiltroProveedor.setPromptText("Todos los proveedores");
+        cbFiltroProveedor.setPrefWidth(250);
+        try {
+            List<Proveedor> proveedores = proveedorService.obtenerTodosLosProveedores();
+            cbFiltroProveedor.getItems().add(null);
+            cbFiltroProveedor.getItems().addAll(proveedores);
+            cbFiltroProveedor.setConverter(new javafx.util.StringConverter<>() {
+                @Override
+                public String toString(Proveedor prov) {
+                    return prov != null ? prov.getNombre() : "Todos los proveedores";
+                }
+                @Override
+                public Proveedor fromString(String string) {
+                    return null;
+                }
+            });
+            cbFiltroProveedor.getSelectionModel().selectFirst();
+        } catch (Exception e) {
+            mostrarError("Error", "No se pudieron cargar los proveedores");
+        }
+        grid.add(cbFiltroProveedor, 1, row++);
+
+        // Filtro por stock
+        grid.add(new Label("Stock mínimo:"), 0, row);
+        TextField tfStockMin = new TextField();
+        tfStockMin.setPromptText("Ej: 10");
+        tfStockMin.setPrefWidth(250);
+        grid.add(tfStockMin, 1, row++);
+
+        grid.add(new Label("Stock máximo:"), 0, row);
+        TextField tfStockMax = new TextField();
+        tfStockMax.setPromptText("Ej: 100");
+        tfStockMax.setPrefWidth(250);
+        grid.add(tfStockMax, 1, row++);
+
+        // Filtro por rango de precio
+        Label separador2 = new Label("━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+        separador2.setStyle("-fx-text-fill: #0FB9BA;");
+        grid.add(separador2, 0, row++, 2, 1);
+
+        grid.add(new Label("Precio mínimo:"), 0, row);
+        TextField tfPrecioMin = new TextField();
+        tfPrecioMin.setPromptText("Ej: 10000");
+        tfPrecioMin.setPrefWidth(250);
+        grid.add(tfPrecioMin, 1, row++);
+
+        grid.add(new Label("Precio máximo:"), 0, row);
+        TextField tfPrecioMax = new TextField();
+        tfPrecioMax.setPromptText("Ej: 100000");
+        tfPrecioMax.setPrefWidth(250);
+        grid.add(tfPrecioMax, 1, row++);
+
+        // CheckBox para stock bajo
+        CheckBox chkStockBajo = new CheckBox("Solo stock bajo (≤ 10 unidades)");
+        chkStockBajo.setStyle("-fx-font-weight: bold; -fx-text-fill: #ff9800;");
+        grid.add(chkStockBajo, 0, row++, 2, 1);
+
+        // Botones
+        Button btnAplicar = new Button("Aplicar Filtros");
+        Button btnLimpiarFiltros = new Button("Limpiar Filtros");
+        Button btnCerrar = new Button("Cerrar");
+
+        btnAplicar.setStyle("-fx-background-color: #0FB9BA; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20;");
+        btnLimpiarFiltros.setStyle("-fx-background-color: #ff9800; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20;");
+        btnCerrar.setStyle("-fx-background-color: #607489; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20;");
+
+        btnAplicar.setOnAction(event -> {
+            listaFiltrada.clear();
+
+            for (Accesorio a : listaAccesorios) {
+                boolean coincide = true;
+
+                if (cbFiltroMarca.getValue() != null) {
+                    if (a.getMarca() == null ||
+                        a.getMarca().getIdMarca() != cbFiltroMarca.getValue().getIdMarca()) {
+                        coincide = false;
+                    }
+                }
+
+                if (cbFiltroProveedor.getValue() != null) {
+                    if (a.getProveedor() == null ||
+                        a.getProveedor().getIdProveedor() != cbFiltroProveedor.getValue().getIdProveedor()) {
+                        coincide = false;
+                    }
+                }
+
+                if (!tfStockMin.getText().trim().isEmpty()) {
+                    try {
+                        int stockMin = Integer.parseInt(tfStockMin.getText().trim());
+                        if (a.getStock() < stockMin) {
+                            coincide = false;
+                        }
+                    } catch (NumberFormatException ignored) {}
+                }
+
+                if (!tfStockMax.getText().trim().isEmpty()) {
+                    try {
+                        int stockMax = Integer.parseInt(tfStockMax.getText().trim());
+                        if (a.getStock() > stockMax) {
+                            coincide = false;
+                        }
+                    } catch (NumberFormatException ignored) {}
+                }
+
+                if (!tfPrecioMin.getText().trim().isEmpty()) {
+                    try {
+                        double precioMin = Double.parseDouble(tfPrecioMin.getText().trim());
+                        if (a.getPrecio() < precioMin) {
+                            coincide = false;
+                        }
+                    } catch (NumberFormatException ignored) {}
+                }
+
+                if (!tfPrecioMax.getText().trim().isEmpty()) {
+                    try {
+                        double precioMax = Double.parseDouble(tfPrecioMax.getText().trim());
+                        if (a.getPrecio() > precioMax) {
+                            coincide = false;
+                        }
+                    } catch (NumberFormatException ignored) {}
+                }
+
+                if (chkStockBajo.isSelected()) {
+                    if (a.getStock() > 10) {
+                        coincide = false;
+                    }
+                }
+
+                if (coincide) {
+                    listaFiltrada.add(a);
+                }
+            }
+
+            tblInventario.setItems(listaFiltrada);
+            mostrarInfo("Filtros aplicados",
+                "Se encontraron " + listaFiltrada.size() + " juguete(s)/accesorio(s) que coinciden con los filtros.");
+        });
+
+        btnLimpiarFiltros.setOnAction(event -> {
+            cbFiltroMarca.getSelectionModel().selectFirst();
+            cbFiltroProveedor.getSelectionModel().selectFirst();
+            tfStockMin.clear();
+            tfStockMax.clear();
+            tfPrecioMin.clear();
+            tfPrecioMax.clear();
+            chkStockBajo.setSelected(false);
+            listaFiltrada.clear();
+            listaFiltrada.addAll(listaAccesorios);
+            tblInventario.setItems(listaFiltrada);
+            mostrarInfo("Filtros limpiados", "Se han restaurado todos los juguetes/accesorios.");
+        });
+
+        btnCerrar.setOnAction(event -> dialog.close());
+
+        VBox buttonsBox = new VBox(12, btnAplicar, btnLimpiarFiltros, btnCerrar);
+        buttonsBox.setAlignment(Pos.CENTER);
+        buttonsBox.setStyle("-fx-padding: 15 0 0 0;");
+        grid.add(buttonsBox, 0, row, 2, 1);
+
+        ScrollPane scrollPane = new ScrollPane(grid);
+        scrollPane.setFitToWidth(true);
+        scrollPane.setStyle("-fx-background-color: #f5f5f5;");
+
+        Scene scene = new Scene(scrollPane, 500, 600);
+        dialog.setScene(scene);
+        dialog.showAndWait();
+    }
+
+    @FXML
+    private void onLimpiar() {
+        tfBuscar.clear();
+        listaFiltrada.clear();
+        listaFiltrada.addAll(listaAccesorios);
+        tblInventario.setItems(listaFiltrada);
+    }
+
+    // ===== EDITAR =====
+    @FXML
+    private void onEditarSeleccion() {
+        Accesorio seleccionado = tblInventario.getSelectionModel().getSelectedItem();
+        if (seleccionado == null) {
+            mostrarAdvertencia("Selección requerida", "Debe seleccionar un juguete/accesorio para editar.");
+            return;
+        }
+
+        mostrarDialogoEditar(seleccionado);
+    }
+
+    private void mostrarDialogoEditar(Accesorio accesorio) {
+        Stage dialog = new Stage();
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.setTitle("Editar Juguete/Accesorio");
+
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20));
+
+        int row = 0;
+
+        // ID (solo lectura)
+        grid.add(new Label("ID:"), 0, row);
+        TextField tfId = new TextField(String.valueOf(accesorio.getIdProducto()));
+        tfId.setEditable(false);
+        tfId.setStyle("-fx-background-color: #e0e0e0;");
+        grid.add(tfId, 1, row++);
+
+        grid.add(new Label("Nombre:*"), 0, row);
+        TextField tfNombre = new TextField(accesorio.getNombre());
+        grid.add(tfNombre, 1, row++);
+
+        grid.add(new Label("Referencia:*"), 0, row);
+        TextField tfReferencia = new TextField(accesorio.getReferencia());
+        grid.add(tfReferencia, 1, row++);
+
+        grid.add(new Label("Código Barras:"), 0, row);
+        TextField tfCodigo = new TextField(accesorio.getCodigoBarras());
+        grid.add(tfCodigo, 1, row++);
+
+        grid.add(new Label("Precio:*"), 0, row);
+        TextField tfPrecio = new TextField(String.valueOf(accesorio.getPrecio()));
+        grid.add(tfPrecio, 1, row++);
+
+        grid.add(new Label("Costo:*"), 0, row);
+        TextField tfCosto = new TextField(String.valueOf(accesorio.getCosto()));
+        grid.add(tfCosto, 1, row++);
+
+        grid.add(new Label("Stock:*"), 0, row);
+        TextField tfStock = new TextField(String.valueOf(accesorio.getStock()));
+        grid.add(tfStock, 1, row++);
+
+        grid.add(new Label("Descripción:"), 0, row);
+        TextArea taDescripcion = new TextArea(accesorio.getDescripcion());
+        taDescripcion.setPrefRowCount(3);
+        grid.add(taDescripcion, 1, row++);
+
+        // Marca
+        grid.add(new Label("Marca:*"), 0, row);
+        ComboBox<Marca> cbMarca = new ComboBox<>();
+        try {
+            List<Marca> marcas = marcaService.listarTodasLasMarcas();
+            cbMarca.getItems().addAll(marcas);
+            cbMarca.setConverter(new javafx.util.StringConverter<>() {
+                @Override
+                public String toString(Marca marca) {
+                    return marca != null ? marca.getNombreMarca() : "";
+                }
+                @Override
+                public Marca fromString(String string) {
+                    return null;
+                }
+            });
+            if (accesorio.getMarca() != null) {
+                cbMarca.getSelectionModel().select(
+                    marcas.stream()
+                        .filter(m -> m.getIdMarca() == accesorio.getMarca().getIdMarca())
+                        .findFirst()
+                        .orElse(null)
+                );
+            }
+        } catch (SQLException e) {
+            mostrarError("Error", "No se pudieron cargar las marcas: " + e.getMessage());
+        }
+        grid.add(cbMarca, 1, row++);
+
+        // Proveedor
+        grid.add(new Label("Proveedor:"), 0, row);
+        ComboBox<Proveedor> cbProveedor = new ComboBox<>();
+        try {
+            List<Proveedor> proveedores = proveedorService.obtenerTodosLosProveedores();
+            cbProveedor.getItems().addAll(proveedores);
+            cbProveedor.setConverter(new javafx.util.StringConverter<>() {
+                @Override
+                public String toString(Proveedor prov) {
+                    return prov != null ? prov.getNombre() : "";
+                }
+                @Override
+                public Proveedor fromString(String string) {
+                    return null;
+                }
+            });
+            if (accesorio.getProveedor() != null) {
+                cbProveedor.getSelectionModel().select(
+                    proveedores.stream()
+                        .filter(p -> p.getIdProveedor() == accesorio.getProveedor().getIdProveedor())
+                        .findFirst()
+                        .orElse(null)
+                );
+            }
+        } catch (Exception e) {
+            mostrarError("Error", "No se pudieron cargar los proveedores: " + e.getMessage());
+        }
+        grid.add(cbProveedor, 1, row++);
+
+        // Imagen
+        grid.add(new Label("Imagen:"), 0, row);
+        Button btnImagen = new Button("Cambiar Imagen");
+        final byte[][] nuevaImagen = {accesorio.getImagenProducto()};
+        btnImagen.setOnAction(event -> {
+            FileChooser fc = new FileChooser();
+            fc.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Imágenes", "*.png", "*.jpg", "*.jpeg")
+            );
+            File archivo = fc.showOpenDialog(dialog);
+            if (archivo != null) {
+                try {
+                    nuevaImagen[0] = Files.readAllBytes(archivo.toPath());
+                    mostrarInfo("Imagen cargada", "La imagen se actualizará al guardar.");
+                } catch (Exception ex) {
+                    mostrarError("Error", "No se pudo cargar la imagen: " + ex.getMessage());
+                }
+            }
+        });
+        grid.add(btnImagen, 1, row++);
+
+        // Botones
+        Button btnGuardar = new Button("Guardar");
+        Button btnCancelar = new Button("Cancelar");
+
+        btnGuardar.setStyle("-fx-background-color: #0FB9BA; -fx-text-fill: white; -fx-font-weight: bold;");
+        btnCancelar.setStyle("-fx-background-color: #E45858; -fx-text-fill: white; -fx-font-weight: bold;");
+
+        btnGuardar.setOnAction(event -> {
+            try {
+                if (tfNombre.getText().trim().isEmpty()) {
+                    mostrarAdvertencia("Campo requerido", "El nombre es obligatorio.");
+                    return;
+                }
+                if (tfReferencia.getText().trim().isEmpty()) {
+                    mostrarAdvertencia("Campo requerido", "La referencia es obligatoria.");
+                    return;
+                }
+                if (cbMarca.getValue() == null) {
+                    mostrarAdvertencia("Campo requerido", "La marca es obligatoria.");
+                    return;
+                }
+
+                accesorio.setNombre(tfNombre.getText().trim());
+                accesorio.setReferencia(tfReferencia.getText().trim());
+                accesorio.setCodigoBarras(tfCodigo.getText().trim());
+                accesorio.setPrecio(Double.parseDouble(tfPrecio.getText()));
+                accesorio.setCosto(Double.parseDouble(tfCosto.getText()));
+                accesorio.setStock(Integer.parseInt(tfStock.getText()));
+                accesorio.setDescripcion(taDescripcion.getText());
+                accesorio.setMarca(cbMarca.getValue());
+                accesorio.setProveedor(cbProveedor.getValue());
+                accesorio.setImagenProducto(nuevaImagen[0]);
+
+                Integer idProveedor = cbProveedor.getValue() != null ?
+                    cbProveedor.getValue().getIdProveedor() : null;
+
+                boolean actualizado = accesorioService.actualizarAccesorio(accesorio, idProveedor);
+
+                if (actualizado) {
+                    mostrarInfo("Éxito", "Juguete/Accesorio actualizado correctamente.");
+                    cargarAccesorios();
+                    dialog.close();
+                } else {
+                    mostrarError("Error", "No se pudo actualizar el juguete/accesorio.");
+                }
+            } catch (NumberFormatException ex) {
+                mostrarError("Error de formato", "Verifique que los números estén correctos.");
+            } catch (SQLException ex) {
+                mostrarError("Error de BD", "Error al actualizar: " + ex.getMessage());
+            } catch (Exception ex) {
+                mostrarError("Error", "Error inesperado: " + ex.getMessage());
+            }
+        });
+
+        btnCancelar.setOnAction(event -> dialog.close());
+
+        VBox buttonsBox = new VBox(10, btnGuardar, btnCancelar);
+        buttonsBox.setAlignment(Pos.CENTER);
+        grid.add(buttonsBox, 0, row, 2, 1);
+
+        ScrollPane scrollPane = new ScrollPane(grid);
+        scrollPane.setFitToWidth(true);
+
+        Scene scene = new Scene(scrollPane, 500, 550);
+        dialog.setScene(scene);
+        dialog.showAndWait();
+    }
+
+    // ===== ELIMINAR =====
+    @FXML
+    private void onEliminarSeleccion() {
+        Accesorio seleccionado = tblInventario.getSelectionModel().getSelectedItem();
+        if (seleccionado == null) {
+            mostrarAdvertencia("Selección requerida", "Debe seleccionar un juguete/accesorio para eliminar.");
+            return;
+        }
+
+        Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmacion.setTitle("Confirmar eliminación");
+        confirmacion.setHeaderText("¿Está seguro de eliminar este juguete/accesorio?");
+        confirmacion.setContentText("Producto: " + seleccionado.getNombre() +
+            "\nID: " + seleccionado.getIdProducto() +
+            "\n\nEsta acción no se puede deshacer.");
+
+        Optional<ButtonType> resultado = confirmacion.showAndWait();
+        if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
+            try {
+                boolean eliminado = accesorioService.eliminarAccesorio(seleccionado.getIdProducto());
+                if (eliminado) {
+                    mostrarInfo("Éxito", "Juguete/Accesorio eliminado correctamente.");
+                    cargarAccesorios();
+                } else {
+                    mostrarError("Error", "No se pudo eliminar el juguete/accesorio.");
+                }
+            } catch (SQLException e) {
+                mostrarError("Error de BD", "Error al eliminar: " + e.getMessage());
+            }
+        }
+    }
+
+    @FXML
+    private void onDeshacer() {
+        cargarAccesorios();
+        tfBuscar.clear();
+    }
+
+    // ===== NAVEGACIÓN =====
+    private void goTo(String fxml) {
+        try {
+            var url = getClass().getResource(fxml);
+            if (url == null) throw new IllegalStateException("NO existe el recurso (classpath): " + fxml);
+            Parent newRoot = new FXMLLoader(url).load();
+            Scene scene = root.getScene();
+            scene.setRoot(newRoot);
+            Stage stage = (Stage) scene.getWindow();
+            stage.centerOnScreen();
+        } catch (Exception e) {
+            new Alert(Alert.AlertType.ERROR, "No se pudo abrir: " + fxml + "\n" + e.getMessage()).showAndWait();
+        }
+    }
+
+    @FXML private void onLogoClick()         { goTo(MAINMENU_FXML); }
+    @FXML private void onVerNotificaciones() { goTo(SEENOTIFICATIONS_FXML); }
+    @FXML private void onDatosPersonales()   { goTo(PERSONALDATA_FXML); }
+    @FXML private void onCerrarSesion()      { goTo(LOGIN_FXML); }
+    @FXML private void onRegistrarProductos()     { goTo(REGISTER_PRODUCT_FXML); }
+    @FXML private void onGestionarUsuario()       { goTo(CREATE_USER_FXML); }
+    @FXML private void onVisualizarRegistros()    { goTo(VISUALIZE_REGISTER_FXML); }
+    @FXML private void onVentas()                 { goTo(SECTION_SALES_FXML); }
+    @FXML private void onAgregarClientes()        { goTo(ADD_CLIENT_FXML); }
+    @FXML private void onAdministrarProveedores() { goTo(ADD_SUPPLIERS_FXML); }
+    @FXML private void onMedicamento() { goTo(INVENTORY_MEDICAMENT_FXML); }
+    @FXML private void onAlimento() { goTo(INVENTORY_ALIMENT_FXML); }
+    @FXML private void onMaterial() { goTo(INVENTORY_MATERIALQ_FXML); }
+    @FXML private void onVolver() { goTo(INVENTORY_FXML); }
+
+    // ===== UTILIDADES =====
+    private void mostrarError(String titulo, String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+    }
+
+    private void mostrarAdvertencia(String titulo, String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+    }
+
+    private void mostrarInfo(String titulo, String mensaje) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensaje);
+        alert.showAndWait();
+    }
+}
+
