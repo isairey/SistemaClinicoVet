@@ -15,7 +15,7 @@ Haz clic en el botón **Fork** en la parte superior derecha del repositorio.
 ### 2. Clona tu Fork
 
 ```bash
-git clone https://github.com/TU_USUARIO/Veterinaria.git
+git clone https://github.com/isairey/SistemaClinicoVet.git
 cd Veterinaria
 ```
 
@@ -133,7 +133,7 @@ Click the **Fork** button in the top-right corner of the repository.
 ### 2. Clone your fork
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/Veterinaria.git
+git clone https://github.com/isairey/SistemaClinicoVet.git
 cd Veterinaria
 ```
 
