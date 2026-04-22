@@ -427,7 +427,7 @@ Veterinaria/
 
 ```bash
 # 1. Clonar el repositorio
-git clone https://github.com/tu-usuario/Veterinaria.git
+git clone https://github.com/isairey/SistemaClinocoVet.git
 cd Veterinaria
 
 # 2. Configurar la base de datos (ver DATABASE_SETUP.md)
@@ -878,7 +878,7 @@ Veterinaria/
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/your-user/Veterinaria.git
+git clone https://github.com/isairey/SistemaClinicoVet.git
 cd Veterinaria
 
 # 2. Set up the database (see DATABASE_SETUP.md)
